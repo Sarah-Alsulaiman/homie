@@ -1,175 +1,51 @@
-Blockly.JavaScript.top1 = function() {
+Blockly.JavaScript.roof = function() {
 	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
 	if (color == '0') {
-		return '[ "top1-", "red", "hot" ]';
+		return '[ "roof-", "red"]';
 	}
 	else {
-		return '[ "top1-",' + color + ', "hot" ]';
+		return '[ "roof-",' + color + ' ]';
 	}
 };
 
-Blockly.JavaScript.top2 = function() {
+Blockly.JavaScript.wall = function() {
   var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
 	if (color == '0') {
-		return '[ "top2-", "blue" ]';
+		return '[ "wall-", "blue" ]';
 	}
 	else {
-		return '[ "top2-",' + color + ' ]';
+		return '[ "wall-",' + color + ' ]';
 	}
 };
 
-Blockly.JavaScript.top3 = function() {
+Blockly.JavaScript.door = function() {
 	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
 	if (color == '0') {
-		return '[ "top3-", "red", "cold" ]';
+		return '[ "door-", "red"]';
 	}
 	else {
-		return '[ "top3-",' + color + ', "cold" ]';
+		return '[ "door-",' + color + ' ]';
 	}
 };
 
-Blockly.JavaScript.top4 = function() {
+Blockly.JavaScript.windows = function() {
 	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
 	if (color == '0') {
-		return '[ "top4-", "red" ]';
+		return '[ "window-", "red" ]';
 	}
 	else {
-		return '[ "top4-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.top5 = function() {
-	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "top5-", "red" ]';
-	}
-	else {
-		return '[ "top5-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.top6 = function() {
-	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "top6-", "red" ]';
-	}
-	else {
-		return '[ "top6-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.top7 = function() {
-	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "top7-", "red" ]';
-	}
-	else {
-		return '[ "top7-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.top8 = function() {
-	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "top8-", "red" ]';
-	}
-	else {
-		return '[ "top8-",' + color + ' ]';
-	}
-};
-
-//--------------------------------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------------------------------
-Blockly.JavaScript.bottom1 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom1-", "red" ]';
-	}
-	else {
-		return '[ "bottom1-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom2 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom2-", "blue" ]';
-	}
-	else {
-		return '[ "bottom2-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom3 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom3-", "blue" ]';
-	}
-	else {
-		return '[ "bottom3-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom4 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom4-", "blue" ]';
-	}
-	else {
-		return '[ "bottom4-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom5 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom5-", "blue" ]';
-	}
-	else {
-		return '[ "bottom5-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom6 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom6-", "blue" ]';
-	}
-	else {
-		return '[ "bottom6-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom7 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom7-", "blue" ]';
-	}
-	else {
-		return '[ "bottom7-",' + color + ' ]';
-	}
-};
-
-Blockly.JavaScript.bottom8 = function() {
-  var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
-	if (color == '0') {
-		return '[ "bottom8-", "blue" ]';
-	}
-	else {
-		return '[ "bottom8-",' + color + ' ]';
+		return '[ "window-",' + color + ' ]';
 	}
 };
 
 
-
-Blockly.JavaScript.set_color = function() {
-	var part = this.getTitleValue('part');
-	var color = Blockly.JavaScript.valueToCode(this, 'SET', Blockly.JavaScript.ORDER_NONE) || '0';
+Blockly.JavaScript.light = function() {
+	var state = this.getTitleValue('lights');
 	
-	return '["SET", [ "' + part + '", ' + color + '] ]';
-		
+	return '[ "lights-",' + state + ' ]';
 };
+
+
 
 Blockly.JavaScript.get_color_input = function() {
 	var part = this.getTitleValue('part');
@@ -185,14 +61,6 @@ Blockly.JavaScript.get_color_var = function() {
 	return [code, Blockly.JavaScript.ORDER_NONE];	
 };
 
-
-Blockly.JavaScript.equal = function() {
-	var color = Blockly.JavaScript.valueToCode(this, 'equal', Blockly.JavaScript.ORDER_NONE) || '0';
-	var code = color;
-	
-	return [code, Blockly.JavaScript.ORDER_NONE];
-		
-};
 
 Blockly.JavaScript.red = function() {
 	var color = '"red"';
@@ -250,13 +118,20 @@ Blockly.JavaScript.orange = function() {
 
 
 
-Blockly.JavaScript.going_to = function() {
-	var place = this.getTitleValue('place');
-	var code = '"Going", "' + place + '"';
+Blockly.JavaScript.time_is = function() {
+	var time = this.getTitleValue('time');
+	var code = '"Time", "' + time + '"';
 	
 	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+
+Blockly.JavaScript.drawing_for = function() {
+	var person = this.getTitleValue('drawing_for');
+	var code = '"Drawing", "' + person + '"';
+	
+	return [code, Blockly.JavaScript.ORDER_NONE];
+};
 
 
 Blockly.JavaScript.control_repeat = function() {
@@ -279,11 +154,6 @@ Blockly.JavaScript.control_if = function() {
   return code ;
 };
 
-
-Blockly.JavaScript.color_dress1 = function() {
-	code = 'color_dress1';
-  return [code, Blockly.JavaScript.ORDER_NONE];
-};
 
 'use strict';
 

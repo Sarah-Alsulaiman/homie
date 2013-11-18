@@ -112,40 +112,45 @@
         bgImg.className = 'background';
         document.getElementById("images").appendChild(bgImg);*/
 		
-      	var COLORS = ['red', 'blue', 'gold', 'lime', 'black', 'pink', 'orange' , 'purple', 'grey'];
-      	for (var i=1; i < 9; i++ ) {
-        	for (var j=0; j < COLORS.length; j++ ) {
-          		var imgT=document.createElement("img");
-          		imgT.src = 'images/top'+ i + '-' + COLORS[j] +'.png';
-          		imgT.id = 'top'+ i + '-' + COLORS[j];
-          		imgT.className = 'top';
-          		document.getElementById("images").appendChild(imgT);
+      	var COLORS = ['red', 'blue'];
+        for (var j=0; j < COLORS.length; j++ ) {
           		
-          		var imgB= document.createElement("img");
-          		imgB.src = 'images/bottom'+ i + '-' + COLORS[j] +'.png';
-          		imgB.id = 'bottom'+ i + '-' + COLORS[j];
-          		imgB.className = 'bottom';
-          		document.getElementById("images").appendChild(imgB);
+          		var imgR=document.createElement("img");
+          		imgR.src = 'images/roof-' + COLORS[j] +'.png';
+          		imgR.id = 'roof-'+ COLORS[j];
+          		imgR.className = 'roof';
+          		document.getElementById("images").appendChild(imgR);
+          		
+          		var imgW= document.createElement("img");
+          		imgW.src = 'images/wall-' + COLORS[j] +'.png';
+          		imgW.id = 'wall-' + COLORS[j];
+          		imgW.className = 'wall';
+          		document.getElementById("images").appendChild(imgW);
+          		
+          		var imgD= document.createElement("img");
+          		imgD.src = 'images/door-' + COLORS[j] +'.png';
+          		imgD.id = 'door-' + COLORS[j];
+          		imgD.className = 'door';
+          		document.getElementById("images").appendChild(imgD);
+          		
+          		
+          		var imgW1= document.createElement("img");
+          		imgW1.src = 'images/window-' + COLORS[j] +'.png';
+          		imgW1.id = 'window1-' + COLORS[j];
+          		imgW1.className = 'window1';
+          		document.getElementById("images").appendChild(imgW1);
           		//console.log(img.src);
           		
-        	}
+          		
+          		var imgW2= document.createElement("img");
+          		imgW2.src = 'images/window-' + COLORS[j] +'.png';
+          		imgW2.id = 'window2-' + COLORS[j];
+          		imgW2.className = 'window2';
+          		document.getElementById("images").appendChild(imgW2);
+          		//console.log(imgW2.src);
+        	
       	}
       	
-      	img_blank = document.createElement("img");
-      	img_blank.src = 'images/blank.png';
-      	img_blank.id = 'blank';
-      	img_blank.className = 'top';
-      	document.getElementById("images").appendChild(img_blank);
-      	
-      	if (CURRENT_LEVEL == 6)
-      		document.getElementById('top5-black').style.visibility = "visible";
-      	else if (CURRENT_LEVEL == 7)
-      		img_blank.style.visibility = "visible";
-      		
-      	
-      	
-      	
-      		
       		
     }	
     	
@@ -154,36 +159,54 @@
 //---------------------------------------------------------------------------------------
 	
 	function setHtmlVisibility(id, visible) {
-		var el = document.getElementById(String(id));
-   	   	var variations = id.substring(0,3);
+		var el = id.substring(0,6);
+		var color = id.substring(7);
+		console.log(color);
+		if (el == "window") {
+		
+		var id1 = "window1-" + color;
+		var id2 = "window2-" + color;
+		
+		var el1 = document.getElementById(id1);
+		var el2 = document.getElementById(id2);
+		
+		el1.style.visibility = visible ? "visible" : "hidden";
+		el2.style.visibility = visible ? "visible" : "hidden";
+		
+		}
+		
+		else {
+			var el = document.getElementById(String(id));
+   	   		var variations = id.substring(0,3);
       	
-      	if (variations == "top") variations = "top";
-      	else if (variations == "bot") variations = "bottom";
-      	else variations = "background";
+      		console.log("RECEIVED" + el);
       	
-  	   	hideVariations(variations);
-  	   	
-  	   	if (CURRENT_LEVEL == 6)
-      		document.getElementById('top5-black').style.visibility = "visible";
-      		
-  	   	img_blank.style.visibility = "hidden";
-  	  	
-      	if (el) {
-      		el.style.visibility = visible ? "visible" : "hidden";
-      	}
+	      	if (variations == "wal") variations = "wall";
+	      	else if (variations == "roo") variations = "roof";
+	      	else variations = "door";
+	      	
+	  	   	//hideVariations(variations);
+	  	  	
+	      	if (el) {
+	      		el.style.visibility = visible ? "visible" : "hidden";
+	      	}
+			
+			}
+			
+		
    	}
    	
    	
    	function hideVariations (variation) {
    		if (variation == "top" || variation == "bottom") {
-   			for (var i=1; i<9; i++) {
+   			
    				for (var j=0; j < colors.length; j++) {
-   					var item = variation.concat(i.toString(),"-",colors[j].toString());
+   					var item = variation.concat("-",colors[j].toString());
 	    			console.log("item = " + item);
 	    			item = document.getElementById(item);
 	        		item.style.visibility = "hidden";
 	        		
-	    		}
+	    		
 	  		}	 
   	 	}
    		
@@ -323,7 +346,7 @@
             code = (code.replace(/\)/g, '')).replace(/\(/g, '');
             code = code.replace(/\;/g, '');
             if (socket != null && socket.readyState == 1) {
-              //alert(code);
+              alert(code);
               socket.send('@dart'+ CURRENT_LEVEL + code);
               
               playing = true;
@@ -559,11 +582,11 @@
       var toolbox1 = '<xml>';
       toolbox1 += '  <category></category>';
       
-      toolbox1 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block>';
-      toolbox1 += '</category> <category> </category>'; //close tops
+      toolbox1 += '  <category name="+ Roofs"> <block type="roof"></block>';
+      toolbox1 += '</category> <category> </category>'; //close roofs
       
-      toolbox1 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block>';
-      toolbox1 += '</category> <category> </category>'; //close bottoms
+      toolbox1 += '<category name="+ Walls"> <block type="wall"></block>';
+      toolbox1 += '</category> <category> </category>'; //close wallls
       toolbox1 += '</xml>';
       
       //------------------------------------------------------------------------------
@@ -623,22 +646,19 @@
       
       //------------------------------------------------------------------------------
       var toolbox5 = '<xml> <category></category> ';
-      toolbox5 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block> <block type="top3"></block> <block type="top4"></block> <block type="top5"></block> <block type="top6"></block>';
-      toolbox5 += '</category> <category> </category>'; //close tops
+      toolbox5 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="light"></block> ';
+      toolbox5 += '</category> <category> </category>'; //close building blocks
       
-      toolbox5 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block> <block type="bottom4"></block> <block type="bottom5"></block> <block type="bottom6"></block>';
-      
-      toolbox5 += '</category> <category> </category>'; //close bottoms
       
       toolbox5 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox5 += '</category> <category> </category>'; //close coloring
       
-      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="going_to"></block> <block type="control_repeat"></block>';
+      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="Time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
       toolbox5 += '</category> <category> </category>'; //close controls
       
-      toolbox5 += '<category name = "+ Outfit Definitions" custom="PROCEDURE">  </category>';
+      toolbox5 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
       toolbox5 += '</category> <category> </category>'; //close definitions
       toolbox5 += '</xml>';
       
@@ -699,31 +719,31 @@
       switch(CURRENT_LEVEL)
       {
         case 1:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox1 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;
         case 2:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox2 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;
         case 3:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox3 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;
         case 4:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox4 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break; 
         case 5:
           Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;
         case 6:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;
         case 7:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox7 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;  
         default:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox1 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
       }
       
-      if (CURRENT_LEVEL >= 4) {
+    
       	 if ('sessionStorage' in window ) {
       	 	var saved_xml = '';
       	 	if (sessionStorage.procedure) {
@@ -735,8 +755,6 @@
       	 	}
       	 	
       	 }
-      	
-      }
       
       
       document.getElementById('full_text_div').innerHTML= LEVELS_MSG[CURRENT_LEVEL - 1];

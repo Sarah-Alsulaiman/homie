@@ -41,7 +41,7 @@ String CURRENT_PLACE;
 String CURRENT_COLOR;
 
 /** Colors available for each outfit **/
-List colors = ['red', 'blue', 'gold', 'lime', 'black', 'pink', 'orange' , 'purple', 'grey'];
+List colors = ['red', 'blue'];
 
 
 bool consider = true;
@@ -90,6 +90,10 @@ String ERR_MSG = '';
 Map block_name = new Map <String, int>();
 Map text = new Map <String, String> ();
 
+
+
+var CURRENT_PERSON;
+var CURRENT_TIME;
 //----------------------------------------------------------------------
 // Main function
 //----------------------------------------------------------------------
@@ -370,8 +374,11 @@ void prepareCanvas() {
 // Hide all outfit images
 //--------------------------------------------------------------------------
 void hideAll () {
-  hideVariations("top");
-  hideVariations("bottom");
+  hideVariations("roof");
+  hideVariations("wall");
+  hideVariations("door");
+  hideVariations("window1");
+  hideVariations("window2");
 }
 
 
@@ -379,11 +386,11 @@ void hideAll () {
 // Hide all variations of a specific outfit part
 //--------------------------------------------------------------------------
 void hideVariations(String part) {
-  for (int i=1; i<9; i++) {
+ 
     for (int j=0; j < colors.length; j++) {
-      query("#$part$i-${colors[j]}").style.visibility = "hidden";
+      query("#$part-${colors[j]}").style.visibility = "hidden";
     }
-  } 
+ 
 }
 
 //--------------------------------------------------------------------------
@@ -554,7 +561,7 @@ void processIf(List nested) {
   if (other.length >= 1) {blocks[block_name['other']][1] = true; print("OTHER POPULATED");}
   
   if (condition != 0) {
-    if (condition == "Going") { //GOING TO block is connected to IF block
+    if (condition == "Drawing") { //DRAWING FOR block is connected to IF block
       blocks[block_name['going']][1] = true;
       
       consider = false;
@@ -562,7 +569,7 @@ void processIf(List nested) {
       addOutfit(other);
       
       consider = true;
-      result = (nested[1][1] == CURRENT_PLACE)? then : other;
+      result = (nested[1][1] == CURRENT_PERSON)? then : other;
       //result could be empty!
       if (result.length != 0)
         addOutfit(result);
@@ -572,8 +579,9 @@ void processIf(List nested) {
     }
       
      
-    else  {  //GET block is connected to IF block ==> for unkown color levels
+    else  {  //TIME CONDITION
       blocks[block_name['get']][1] = true; 
+      
       var part = nested[1][0][1][0];
       var color = nested[1][0][1][1] ;
       
@@ -640,6 +648,22 @@ void randomize() {
   x = rnd.nextInt(2);
   
   CURRENT_COLOR = colors[x];
+  
+  
+  var people = ['teacher', 'friend'];
+  rnd = new Random();
+  x = rnd.nextInt(2);
+  
+  CURRENT_PERSON = people[x];
+  
+  
+  var time = ['morning', 'evening'];
+  rnd = new Random();
+  x = rnd.nextInt(2);
+  
+  CURRENT_TIME = time[x];
+  
+  
   
 }
 
