@@ -179,9 +179,15 @@ void initWebsocket() {
         if (outfits.length == 0) {
           timer.cancel();
           if (check_input) {
-            if (CURRENT_LEVEL == "3" || CURRENT_LEVEL == "5") {
-              String background = CURRENT_PLACE;
+            if (CURRENT_LEVEL == "3") {
+              String background = CURRENT_TIME;
               sendMessage("bg " + background);
+            }
+            
+            else if (CURRENT_LEVEL == "5") {
+              String background = CURRENT_PERSON;
+              sendMessage("bg " + background);
+              
             }
             sendMessage("DONE!");
           }
@@ -236,6 +242,8 @@ void compile(String json) {
   
   interpret(commands);
   
+  
+  /*
   // Validate user answers here...
   //format blocks = [ [blockName, value, levels] ]
   
@@ -244,6 +252,8 @@ void compile(String json) {
   
   else
     check_input = false;
+    
+  */
 }
 
 
@@ -379,6 +389,8 @@ void hideAll () {
   hideVariations("door");
   hideVariations("window1");
   hideVariations("window2");
+  hideVariations("lights");
+  
 }
 
 
@@ -386,10 +398,19 @@ void hideAll () {
 // Hide all variations of a specific outfit part
 //--------------------------------------------------------------------------
 void hideVariations(String part) {
- 
-    for (int j=0; j < colors.length; j++) {
-      query("#$part-${colors[j]}").style.visibility = "hidden";
+    if (part == "lights") {
+      query("#lights1").style.visibility = "hidden";
+      query("#lights2").style.visibility = "hidden";
     }
+  
+    else {
+      
+      for (int j=0; j < colors.length; j++) {
+        query("#$part-${colors[j]}").style.visibility = "hidden";
+      }
+      
+    }
+    
  
 }
 
@@ -425,10 +446,7 @@ void interpret (List commands) {
       else { //not a block
         var part = nested[0];
         var color = nested[1];
-        if (color == 'current_color') {
-          color = CURRENT_COLOR;
-          get_var_block = true; print("GET VAR FOUND");
-        }
+       
         var outfit = part+color;
           
         if (part.startsWith("top")) { 
@@ -582,10 +600,10 @@ void processIf(List nested) {
     else  {  //TIME CONDITION
       blocks[block_name['get']][1] = true; 
       
-      var part = nested[1][0][1][0];
-      var color = nested[1][0][1][1] ;
+      //var part = nested[1][0][1][0];
+      //var color = nested[1][0][1][1] ;
       
-      if (color == "black" || color == "purple") { blocks[block_name['color']][1] = true; print("COLOR CONNECTED");}
+      //if (color == "black" || color == "purple") { blocks[block_name['color']][1] = true; print("COLOR CONNECTED");}
       
       
       consider = false;
@@ -593,12 +611,12 @@ void processIf(List nested) {
       addOutfit(other);
       
       consider = true;
-      result = (color == CURRENT_COLOR)? then : other;
+      result = (nested[1][1] == CURRENT_TIME)? then : other;
       addOutfit(result);
       
       var sameColor = false;
       
-      if (color == "black") {
+      /*if (color == "black") {
            if ( then[0][1] == "black")
              ERR_MSG = "all_black";
             //print("NO! YOU MADE ALL BLACK");
@@ -615,7 +633,7 @@ void processIf(List nested) {
         if (other[0][1] == "black")
           ERR_MSG = "all_black";
         
-      }
+      }*/
        
     } 
     

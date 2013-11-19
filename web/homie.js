@@ -5,8 +5,8 @@
     var MIN_LEVEL = 1;
     var CURRENT_LEVEL = getLevel();
     var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you draw a home using these blocks",
-                        " The teacher wants you to draw a house that has brown walls, red roof, white door and windows. <BR/> &nbsp;&nbsp;&nbsp;&nbsp; She also wants you to turn the lights on for this house. Can you draw such a house? ",
-                        " Can you program a house so that when it is daytime, the lights are swtitched off and when it is night time, it will be switched on?",
+                        " The teacher wants you to draw a house that has brown walls, red roof, white door and windows.&nbsp; She also wants you to turn the lights on for this house. Can you draw such a house? ",
+                        " Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
                         " Now, you can define a house and call it whatever you want, for example, you can draw a house with your favorite colors and call it 'my favorite house'",
                         " Your teacher likes the following colors: brown, black, white, red. Can you program a house so that when the teacher asks you to draw a house, it will draw with her colors, otherwise, it will draw your favorite house",
                         " Can you draw a flashing house? a flashing house will keep turning on and off the lights repeatedly!",
@@ -151,6 +151,17 @@
         	
       	}
       	
+      	var imgL1= document.createElement("img");
+        imgL1.src = 'images/light.png';
+        imgL1.id = 'lights1';
+        imgL1.className = 'light1';
+        document.getElementById("images").appendChild(imgL1);
+        
+      	var imgL2= document.createElement("img");
+        imgL2.src = 'images/light.png';
+        imgL2.id = 'lights2';
+        imgL2.className = 'light2';
+        document.getElementById("images").appendChild(imgL2);
       		
     }	
     	
@@ -164,15 +175,35 @@
 		console.log(color);
 		if (el == "window") {
 		
-		var id1 = "window1-" + color;
-		var id2 = "window2-" + color;
+			var id1 = "window1-" + color;
+			var id2 = "window2-" + color;
+			
+			var el1 = document.getElementById(id1);
+			var el2 = document.getElementById(id2);
+			
+			el1.style.visibility = visible ? "visible" : "hidden";
+			el2.style.visibility = visible ? "visible" : "hidden";
+			
+		}
 		
-		var el1 = document.getElementById(id1);
-		var el2 = document.getElementById(id2);
-		
-		el1.style.visibility = visible ? "visible" : "hidden";
-		el2.style.visibility = visible ? "visible" : "hidden";
-		
+		else if (el =="lights") {
+			
+			var id1 = "lights1";
+			var id2 = "lights2";
+			
+			var el1 = document.getElementById("lights1");
+			var el2 = document.getElementById("lights2");
+			
+			if (color == "on") {
+				el1.style.visibility = "visible";
+				el2.style.visibility = "visible";
+			}
+			
+			else {
+				el1.style.visibility = "hidden";
+				el2.style.visibility = "hidden";
+			
+			}
 		}
 		
 		else {
@@ -655,7 +686,7 @@
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox5 += '</category> <category> </category>'; //close coloring
       
-      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="Time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
+      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
       toolbox5 += '</category> <category> </category>'; //close controls
       
       toolbox5 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';

@@ -31,10 +31,10 @@ Blockly.JavaScript.door = function() {
 Blockly.JavaScript.windows = function() {
 	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
 	if (color == '0') {
-		return '[ "window-", "red" ]';
+		return '[ "window-", "red", "off" ]';
 	}
 	else {
-		return '[ "window-",' + color + ' ]';
+		return '[ "window-",' + color + ', "off" ]';
 	}
 };
 
@@ -42,7 +42,7 @@ Blockly.JavaScript.windows = function() {
 Blockly.JavaScript.light = function() {
 	var state = this.getTitleValue('lights');
 	
-	return '[ "lights-",' + state + ' ]';
+	return '[ "lights-", "' + state + '"  ]';
 };
 
 

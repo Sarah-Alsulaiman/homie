@@ -290,7 +290,7 @@ Blockly.Language.control_if = {
 };
 
 
-Blockly.Language.Time_is = {
+Blockly.Language.time_is = {
   helpUrl: 'http://www.example.com/',
   init: function() {
     this.setColour(34, .66, .95);
@@ -529,7 +529,7 @@ Blockly.Language.procedures_callnoreturn = {
   init: function() {
     this.setColour(290, .45, .65);
     this.appendDummyInput()
-        .appendTitle("Wear")
+        .appendTitle("Draw")
         .appendTitle(Blockly.LANG_PROCEDURES_CALLNORETURN_PROCEDURE, 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
