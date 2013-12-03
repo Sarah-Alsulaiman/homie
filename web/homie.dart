@@ -279,25 +279,25 @@ void interpret (List commands) {
         var outfit = part+color;
         
         if (part.startsWith("roof") && consider) { 
-          blocks[block_name['roof']][1]= true; print("ROOF block now true"); 
+          blocks[block_name['roof']][1]= true; 
         }
           
         else if (part.startsWith("wall") && consider) { 
-          blocks[block_name['wall']][1]= true; print("WALL block now true"); 
+          blocks[block_name['wall']][1]= true; 
         }
         
         else if (part.startsWith("door") && consider) { 
-          blocks[block_name['door']][1]= true; print("DOOR block now true"); 
+          blocks[block_name['door']][1]= true;  
         }
         
         else if (part.startsWith("windows") && consider) { 
-          blocks[block_name['windows']][1]= true; print("WINDOWS block now true"); 
+          blocks[block_name['windows']][1]= true;
         }
         
         else if (part.startsWith("lights") && consider) { 
-          blocks[block_name['lights']][1]= true; print("LIGHTS block now true");
+          blocks[block_name['lights']][1]= true; 
           if (color == "on") {
-            blocks[block_name['lights_on']][1]= true; print("LIGHTS_ON block now true");
+            blocks[block_name['lights_on']][1]= true; 
           }
           
         }

@@ -23,10 +23,11 @@
     var CONNECTION_ID;
     
     var tipImg;
-    var originalTop;
-    var originalBottom;
-    var originalShoes;
-    var originalHair;
+    var originalRoof;
+    var originalDoor;
+    var originalWall;
+    var originalWindows;
+    
     var tempImg;
     var Zindex = 3;
     
@@ -139,25 +140,8 @@
             document.getElementById("images").appendChild(imgW1);
             //console.log(img.src);
                          
-            /*var imgW2= document.createElement("img");
-            imgW2.src = 'images/window-' + COLORS[j] +'.png';
-            imgW2.id = 'window2-' + COLORS[j];
-            imgW2.className = 'window2';
-            document.getElementById("images").appendChild(imgW2);*/
-            
+          
         }
-              
-        /*var imgL1= document.createElement("img");
-        imgL1.src = 'images/light.png';
-        imgL1.id = 'lights1';
-        imgL1.className = 'light1';
-        document.getElementById("images").appendChild(imgL1);
-        
-        var imgL2= document.createElement("img");
-        imgL2.src = 'images/light.png';
-        imgL2.id = 'lights2';
-        imgL2.className = 'light2';
-        document.getElementById("images").appendChild(imgL2);*/
         
         var imgL2= document.createElement("img");
         imgL2.src = 'images/lights.png';
@@ -172,13 +156,36 @@
 //---------------------------------------------------------------------------------------
 	
     function setHtmlVisibility(id, visible) {
-	var el = document.getElementById(String(id));
-	var id = id.split("-");
-	hideVariations(id[0]);
-        //console.log(color);
-       	if (id[0] =="lights") {
-       		el = document.getElementById(id[0]);
+		var el = document.getElementById(String(id));
+		//console.log("VISIBILITY FOR: " +id);
+		var item = id.split("-");
+		
+		switch (item[0]) {
+			case 'roof':
+				originalRoof = id;
+				break;
+				
+			case 'wall':
+				originalWall = id;
+				break;
+				
+			case 'windows':
+				originalWindows = id;
+				break;
+				
+			case 'door':
+				originalDoor = id;
+				break;
+				
+			
+		}
+		
+		hideVariations(item[0]);
+        
+       	if (item[0] =="lights") {
+       		el = document.getElementById('lights');
             if (id[1] == "on") {
+            	console.log("LIGHTS ON!!!" + id);
 	            el.style.visibility = "visible";
             }
                         
@@ -201,16 +208,21 @@
     function hideVariations (variation) {
    	if (variation == "roof" || variation == "wall" || variation == "door" || variation == "windows") {
 	    for (var j=0; j < colors.length; j++) {
-		var item = variation.concat("-",colors[j].toString());
-	    	//console.log("item = " + item);
+			var item = variation.concat("-",colors[j].toString());
 	    	item = document.getElementById(item);
-            	item.style.visibility = "hidden";
+            item.style.visibility = "hidden";
 	        		
 	    }
 	  			 
 	}
+	
+	else if (variation == "lights") {
+		el = document.getElementById(variation);
+		if (el)
+		el.style.visibility = "hidden";
+	}
    		
-	var places = ['morning', 'evening', 'teacher', 'friend', 'lights'];
+	var places = ['morning', 'evening', 'teacher', 'friend'];
    			
 	for ( var i=0; i < places.length; i++) {
 	    var bg = document.getElementById(places[i]);
@@ -692,7 +704,7 @@ Blockly.Tooltip.onMouseMove_ = function(e) {
 Blockly.Tooltip.hide = function() {
 	
 	var imgNode = document.getElementById(tipImg);
-	if (imgNode && tipImg != originalTop && tipImg != originalBottom && tipImg != originalHair && tipImg != originalShoes)
+	if (imgNode && tipImg != originalRoof && tipImg != originalWall && tipImg != originalDoor && tipImg != originalWindows)
 		imgNode.style.visibility = "hidden";
 	
 	//restore original image (if any) after preview
@@ -734,15 +746,15 @@ Blockly.Tooltip.show_ = function() {
   }
   
   tipImg = tip;
-  var type = tipImg.substring(0,3);
-  if (type == "top")
-  	tempImg = originalTop;
-  else if (type == "bot")
-  	tempImg = originalBottom;
-  else if (type == "sho")
-  	tempImg = originalShoes;
-  else if (type == "hai")
-  	tempImg = originalHair;
+  var type = tipImg.split("-");
+  if (type[0] == "roof")
+  	tempImg = originalRoof;
+  else if (type[0] == "wall")
+  	tempImg = originalWall;
+  else if (type[0] == "door")
+  	tempImg = originalDoor;
+  else if (type[0] == "windows")
+  	tempImg = originalWindows;
   else
   	tempImg = '';
   	
