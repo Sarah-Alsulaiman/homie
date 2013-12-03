@@ -31,15 +31,15 @@ Blockly.JavaScript.door = function() {
 Blockly.JavaScript.windows = function() {
 	var color = Blockly.JavaScript.valueToCode(this, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
 	if (color == '0') {
-		return '[ "window-", "red", "off" ]';
+		return '[ "windows-", "red", "off" ]';
 	}
 	else {
-		return '[ "window-",' + color + ', "off" ]';
+		return '[ "windows-",' + color + ', "off" ]';
 	}
 };
 
 
-Blockly.JavaScript.light = function() {
+Blockly.JavaScript.lights = function() {
 	var state = this.getTitleValue('lights');
 	
 	return '[ "lights-", "' + state + '"  ]';

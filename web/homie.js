@@ -1,33 +1,48 @@
+
 //-----------------------------------------------------------------------------------------
 // Global Level variables                                                                   
 //------------------------------------------------------------------------------------------
-	var MAX_LEVEL = 7;
+    var MAX_LEVEL = 7;
     var MIN_LEVEL = 1;
     var CURRENT_LEVEL = getLevel();
-    var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you draw a home using these blocks",
-                        " The teacher wants you to draw a house that has brown walls, red roof, white door and windows.&nbsp; She also wants you to turn the lights on for this house. Can you draw such a house? ",
+    var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you build a home using these blocks<br><br>",
+                        " Can you to build a house with different colors and switch the lights on?",
                         " Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
-                        " Now, you can define a house and call it whatever you want, for example, you can draw a house with your favorite colors and call it 'my favorite house'",
-                        " Your teacher likes the following colors: brown, black, white, red. Can you program a house so that when the teacher asks you to draw a house, it will draw with her colors, otherwise, it will draw your favorite house",
-                        " Can you draw a flashing house? a flashing house will keep turning on and off the lights repeatedly!",
+                        " Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
+                        " Can you build a house so that when the city is your town, your favorite house will be built, otherwise, a different house will be built",
+                        " Can you build a flashing house? a flashing house will keep turning on and off the lights over and over again!",
                        ];
-                       
-    var colors = ['red', 'blue', 'gold', 'lime', 'black', 'pink', 'orange' , 'purple', 'grey'];
+   
+    var colors = ['red', 'blue'];
     var playing = false;
     var error = '';
-    var img_blank;
-    var xml_text = '<xml> </xml>';
-    var saved_procedure = '<xml>';
     
+    var xml_text = '<xml> </xml>';
+    var compare_procedure = '';
+    
+    var CONNECTION_ID;
+    
+    var tipImg;
+    var originalTop;
+    var originalBottom;
+    var originalShoes;
+    var originalHair;
+    var tempImg;
+    var Zindex = 3;
+    
+    var dafault_procedure = false;
 //-----------------------------------------------------------------------------------------
 // store procedures in session storage	                                                                 
 //------------------------------------------------------------------------------------------  
     
     function storeProcedure () {
-    	var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
-    	xml_text = Blockly.Xml.domToText(xml);
+    
+    	var saved_procedure = '';
     	
-    	xmlDoc = loadXMLString(xml_text);
+    	var current_xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    	curret_xml_text = Blockly.Xml.domToText(current_xml);
+    	
+    	xmlDoc = loadXMLString(curret_xml_text);
     	
     	x = xmlDoc.getElementsByTagName('block');
     	for (i=0; i < x.length; i++) {
@@ -35,35 +50,26 @@
   				att = x.item(i).attributes.getNamedItem("type");
   				if ( att.value == 'procedures_defnoreturn') {
   					cloneNode=x[i].cloneNode(true);
-					//var text = new XMLSerializer().serializeToString(cloneNode);
   					saved_procedure += Blockly.Xml.domToText(cloneNode);
+  					saved_procedure += "#";
   				}
-  			
   			}
-  		}
+  	}
   		
   		sessionStorage.procedure = saved_procedure;
-  		//alert(saved_procedure);
-	}
-	
-	
-//------------------------------------------------------------------------------------------
-// Attempt to open a web socket connection
-//------------------------------------------------------------------------------------------
-	var socket = null;
-    if ("WebSocket" in window) {
-      socket = new WebSocket("ws://localhost:8080");
-      socket.onopen    = function(evt) { console.log("HTML connected."); }
-      socket.onmessage = function(evt) { processEvent(evt.data); }
-      socket.onerror   = function(evt) { console.log("HTML error in server connection"); }
-      socket.onclose   = function(evt) { console.log("HTML server connection closed."); }
-      
     }
+	
+	  
+//------------------------------------------------------------------------------------------
+//  Add Event Listener
+//------------------------------------------------------------------------------------------
+    
+    window.addEventListener("message", processEvent, false);
     
 //---------------------------------------------------------------------------
 //  Get level number from URL
 //---------------------------------------------------------------------------
-	function getLevel () {
+    function getLevel () {
       var val = window.location.search.match(new RegExp('[?&]level=(\\d+)'));
       val = val ? val[1] : MIN_LEVEL;
       val = Math.min(Math.max(MIN_LEVEL, val), MAX_LEVEL);
@@ -73,21 +79,22 @@
 //---------------------------------------------------------------------------
 // Redirect to the next level
 //---------------------------------------------------------------------------
-	function advanceLevel () {
-		storeProcedure();
-      if (CURRENT_LEVEL < MAX_LEVEL) {
-        $.jqDialog.confirm("Congratulations!<BR/> <BR/> Are you ready to proceed to level %1?".replace('%1', CURRENT_LEVEL + 1),
-        function() { window.location = window.location.protocol + '//' +
+    function advanceLevel () {
+	storeProcedure();
+	if (CURRENT_LEVEL < MAX_LEVEL - 1) {
+	    $.jqDialog.confirm("Wonderful!<BR/> <BR/> Would you like to continue? ".replace('%1', CURRENT_LEVEL + 1),
+	    function() { window.location = window.location.protocol + '//' +
                      window.location.host + window.location.pathname +
                      '?level=' + (CURRENT_LEVEL + 1); },    // callback function for 'YES' button
         
-        function() {  }    // callback function for 'NO' button
-        );  
-      }
+	    function() {  }    // callback function for 'NO' button
+	    );  
+	}
       
-      else {
-        $.jqDialog.alert("<br>End of game", function() { }); // callback function for 'OK' button
-      }   
+	else if (CURRENT_LEVEL == MAX_LEVEL - 1) {
+	    $.jqDialog.alert("<center> Congratulations! <br> You finished all activities <br> <br>Now, you can play with all blocks as you like</center>", 
+            function() { window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?level=' + (CURRENT_LEVEL + 1);  }); // callback function for 'OK' button
+	}   
     }
  
  
@@ -95,163 +102,134 @@
 //---------------------------------------------------------------------------
 // Show error message
 //---------------------------------------------------------------------------
-	function showError () {
+    function showError () {
 	
-		$.jqDialog.alert("Are you missing something?<br><br>" + error, function() { }); // callback function for 'OK' button
+	$.jqDialog.alert("Are you missing something?<br><br>" + error, function() { }); // callback function for 'OK' button
       
     }
-   
+ 
 //---------------------------------------------------------------------------
 // Populate images
 //---------------------------------------------------------------------------
-	function populate() {
-		
-		/*var bgImg = document.createElement("img");
-        bgImg.src = 'images/gym.png';
-        bgImg.id = 'gym';
-        bgImg.className = 'background';
-        document.getElementById("images").appendChild(bgImg);*/
-		
-      	var COLORS = ['red', 'blue'];
+    function populate() {
+	var COLORS = ['red', 'blue'];
         for (var j=0; j < COLORS.length; j++ ) {
-          		
-          		var imgR=document.createElement("img");
-          		imgR.src = 'images/roof-' + COLORS[j] +'.png';
-          		imgR.id = 'roof-'+ COLORS[j];
-          		imgR.className = 'roof';
-          		document.getElementById("images").appendChild(imgR);
-          		
-          		var imgW= document.createElement("img");
-          		imgW.src = 'images/wall-' + COLORS[j] +'.png';
-          		imgW.id = 'wall-' + COLORS[j];
-          		imgW.className = 'wall';
-          		document.getElementById("images").appendChild(imgW);
-          		
-          		var imgD= document.createElement("img");
-          		imgD.src = 'images/door-' + COLORS[j] +'.png';
-          		imgD.id = 'door-' + COLORS[j];
-          		imgD.className = 'door';
-          		document.getElementById("images").appendChild(imgD);
-          		
-          		
-          		var imgW1= document.createElement("img");
-          		imgW1.src = 'images/window-' + COLORS[j] +'.png';
-          		imgW1.id = 'window1-' + COLORS[j];
-          		imgW1.className = 'window1';
-          		document.getElementById("images").appendChild(imgW1);
-          		//console.log(img.src);
-          		
-          		
-          		var imgW2= document.createElement("img");
-          		imgW2.src = 'images/window-' + COLORS[j] +'.png';
-          		imgW2.id = 'window2-' + COLORS[j];
-          		imgW2.className = 'window2';
-          		document.getElementById("images").appendChild(imgW2);
-          		//console.log(imgW2.src);
-        	
-      	}
-      	
-      	var imgL1= document.createElement("img");
+            var imgR=document.createElement("img");
+            imgR.src = 'images/roof-' + COLORS[j] +'.png';
+            imgR.id = 'roof-'+ COLORS[j];
+            imgR.className = 'roof';
+            document.getElementById("images").appendChild(imgR);
+                          
+            var imgW= document.createElement("img");
+            imgW.src = 'images/wall-' + COLORS[j] +'.png';
+            imgW.id = 'wall-' + COLORS[j];
+            imgW.className = 'wall';
+            document.getElementById("images").appendChild(imgW);
+                          
+            var imgD= document.createElement("img");
+            imgD.src = 'images/door-' + COLORS[j] +'.png';
+            imgD.id = 'door-' + COLORS[j];
+            imgD.className = 'door';
+            document.getElementById("images").appendChild(imgD);
+     
+            var imgW1= document.createElement("img");
+            imgW1.src = 'images/windows-' + COLORS[j] +'.png';
+            imgW1.id = 'windows-' + COLORS[j];
+            imgW1.className = 'windows';
+            document.getElementById("images").appendChild(imgW1);
+            //console.log(img.src);
+                         
+            /*var imgW2= document.createElement("img");
+            imgW2.src = 'images/window-' + COLORS[j] +'.png';
+            imgW2.id = 'window2-' + COLORS[j];
+            imgW2.className = 'window2';
+            document.getElementById("images").appendChild(imgW2);*/
+            
+        }
+              
+        /*var imgL1= document.createElement("img");
         imgL1.src = 'images/light.png';
         imgL1.id = 'lights1';
         imgL1.className = 'light1';
         document.getElementById("images").appendChild(imgL1);
         
-      	var imgL2= document.createElement("img");
+        var imgL2= document.createElement("img");
         imgL2.src = 'images/light.png';
         imgL2.id = 'lights2';
         imgL2.className = 'light2';
+        document.getElementById("images").appendChild(imgL2);*/
+        
+        var imgL2= document.createElement("img");
+        imgL2.src = 'images/lights.png';
+        imgL2.id = 'lights';
+        imgL2.className = 'lights';
         document.getElementById("images").appendChild(imgL2);
-      		
-    }	
+                      
+    }        
     	
 //---------------------------------------------------------------------------------------
 // Utility functions                                                                                   
 //---------------------------------------------------------------------------------------
 	
-	function setHtmlVisibility(id, visible) {
-		var el = id.substring(0,6);
-		var color = id.substring(7);
-		console.log(color);
-		if (el == "window") {
-		
-			var id1 = "window1-" + color;
-			var id2 = "window2-" + color;
-			
-			var el1 = document.getElementById(id1);
-			var el2 = document.getElementById(id2);
-			
-			el1.style.visibility = visible ? "visible" : "hidden";
-			el2.style.visibility = visible ? "visible" : "hidden";
-			
-		}
-		
-		else if (el =="lights") {
-			
-			var id1 = "lights1";
-			var id2 = "lights2";
-			
-			var el1 = document.getElementById("lights1");
-			var el2 = document.getElementById("lights2");
-			
-			if (color == "on") {
-				el1.style.visibility = "visible";
-				el2.style.visibility = "visible";
-			}
-			
-			else {
-				el1.style.visibility = "hidden";
-				el2.style.visibility = "hidden";
-			
-			}
-		}
-		
-		else {
-			var el = document.getElementById(String(id));
-   	   		var variations = id.substring(0,3);
-      	
-      		console.log("RECEIVED" + el);
-      	
-	      	if (variations == "wal") variations = "wall";
-	      	else if (variations == "roo") variations = "roof";
-	      	else variations = "door";
-	      	
-	  	   	//hideVariations(variations);
-	  	  	
-	      	if (el) {
-	      		el.style.visibility = visible ? "visible" : "hidden";
-	      	}
-			
-			}
-			
-		
-   	}
+    function setHtmlVisibility(id, visible) {
+	var el = document.getElementById(String(id));
+	var id = id.split("-");
+	hideVariations(id[0]);
+        //console.log(color);
+       	if (id[0] =="lights") {
+       		el = document.getElementById(id[0]);
+            if (id[1] == "on") {
+	            el.style.visibility = "visible";
+            }
+                        
+            else {
+                el.style.visibility = "hidden";
+                
+            }
+        }
+                
+        else { //windows - door - roof - wall           
+            if (el) {
+            	el.style.visibility = visible ? "visible" : "hidden";
+            }
+                        
+        }
+                             
+   }
    	
    	
-   	function hideVariations (variation) {
-   		if (variation == "top" || variation == "bottom") {
-   			
-   				for (var j=0; j < colors.length; j++) {
-   					var item = variation.concat("-",colors[j].toString());
-	    			console.log("item = " + item);
-	    			item = document.getElementById(item);
-	        		item.style.visibility = "hidden";
+    function hideVariations (variation) {
+   	if (variation == "roof" || variation == "wall" || variation == "door" || variation == "windows") {
+	    for (var j=0; j < colors.length; j++) {
+		var item = variation.concat("-",colors[j].toString());
+	    	//console.log("item = " + item);
+	    	item = document.getElementById(item);
+            	item.style.visibility = "hidden";
 	        		
-	    		
-	  		}	 
-  	 	}
+	    }
+	  			 
+	}
    		
-   		
+	var places = ['morning', 'evening', 'teacher', 'friend', 'lights'];
    			
-   		var places = ['gym', 'formal', 'restaurant', 'concert'];
+	for ( var i=0; i < places.length; i++) {
+	    var bg = document.getElementById(places[i]);
+	    bg.style.visibility = "hidden";
+	}
    			
-   		for ( var i=0; i < places.length; i++) {
-   			var bg = document.getElementById(places[i]);
-   			bg.style.visibility = "hidden";
-   		}
-   			
-   	}
+    }
    
+   
+    function hideAll() {
+    
+    	hideVariations("roof");
+    	hideVariations("wall");
+    	hideVariations("door");
+    	hideVariations("windows");
+    	hideVariations("lights");
+   
+    }
+    
 	function setHtmlOpacity(id, opacity) {
 		var el = document.getElementById(id);
       	if (el) {
@@ -285,37 +263,38 @@
 //---------------------------------------------------------------------------
 	
     function processEvent(event) {
-      var check = event.substring(0,8);
-      if ( check == "@blockly" ) {
+    	var event = event.data;
+      	var check = event.substring(0,8);
       	
-      	if (event.substring(9, 15) == "error ") {
-      		playing = false;
-      		error = event.substring(15);
-      		showError();
-      	}
+      	if ( check == "@blockly" ) {
+      		//console.log("HTML received message from dart " + event);
+      		
+      		var parts = event.split('#');
       	
-      	else if (event == "@blockly GOT IT!") {
-        	console.log("HTML received message from dart " + event);
-      	}
-      	
-      	else if (event == "@blockly DONE!") {
-        	console.log("HTML received message from dart " + event);
-        	playing = false;
-        	window.setTimeout(function() { advanceLevel(); }, 500);
-      	}
-      	
-      	else if (event.substring(9, 12) == "bg ") {  //received bg to display
-      		console.log("HTML received message from dart for background " + event);
-	      	var bg = event.substring(12);
-	      	setHtmlVisibility(bg, true);
-      	}
-      	
-      	else {		// received an outfit to display
-      		console.log("HTML received message from dart for outfit " + event);
-	      	var outfit = event.substring(16);
-	      	setHtmlVisibility(outfit, true);
-	      
-      	}
+      		if (parts[1].substring(0, 6) == "error ") {
+      			playing = false;
+      			error = parts[1].substring(6);
+      			showError();
+	      	}
+	      	
+	      	else if (parts[1] == "DONE!") {
+	        	//console.log("HTML received message from dart " + event);
+	        	playing = false;
+	        	window.setTimeout(function() { advanceLevel(); }, 500);
+	      	}
+	      	
+	      	else if (parts[1].substring(0, 3) == "bg ") {  //received bg to display
+	      		var bg = parts[1].substring(3);
+	      		//console.log("HTML received message from dart for background " + bg);
+		      	setHtmlVisibility(bg, true);
+	      	}
+	      	
+	      	else {		// received an outfit to display
+	      		//console.log("HTML received message from dart for outfit " + event);
+		      	var outfit = parts[1].substring(7);
+		      	setHtmlVisibility(outfit, true);
+		      
+	      	}
       }	
     }   
 //---------------------------------------------------------------------------------------
@@ -325,19 +304,21 @@
       var connected = true;
       var start = 0;
       var newLine = 0;
+      var length = code.length;
+      var amount = 0;
       while (start < code.length && start != -1) {
         newLine = code.indexOf("\n",start);
         var curlyBrace = code.indexOf("}" ,start);
-        console.log(newLine); console.log(curlyBrace);
+        
         if ( newLine > 0 ) {
         	if ( curlyBrace > 0) {
         		if ( newLine -1 != curlyBrace ) {
             		connected = false;
             		break;
           		}
-          		else { start = newLine+2; }
+          		else { start = newLine+3; amount += (curlyBrace - amount) ; length -= Math.abs(amount) } //++ for multiple procedures...
         	}
-        	else { connected = true; break; } ///++++++
+        	else { connected = false; break; } ///++++++
       	}
       	else { break; } 
       }
@@ -351,7 +332,7 @@
 	function sendBlocklyCode() {
       if (!playing) {
         var code = Blockly.Generator.workspaceToCode('JavaScript');
-        
+        //alert(code);
         //--------------------------------------------------
         // error 1: no blocks on the screen
         //--------------------------------------------------
@@ -370,21 +351,28 @@
             setHtmlOpacity("hint2", 1.0);
             fadeOutAfterDelay("hint2", 4000);
           }
-        
+          
           else {
           
             code = code.replace(/\]\[/g, '], [');
             code = (code.replace(/\)/g, '')).replace(/\(/g, '');
             code = code.replace(/\;/g, '');
-            if (socket != null && socket.readyState == 1) {
-              alert(code);
-              socket.send('@dart'+ CURRENT_LEVEL + code);
-              
-              playing = true;
-              //window.location.reload(true);
-            }
+           
+            hideAll();
+             
+            code = '@dart'+ CURRENT_LEVEL + '#' + code;
+            var origin = window.location.protocol + "//" + window.location.host;
+   			window.postMessage(code, origin);
+   			
+            tempImg = '';
+            playing = true;
           }
         }
+      
+      }
+      
+      else {
+      	alert("still generating previous outfit");
       
       }
     }
@@ -394,7 +382,7 @@
 // Inject blockly to this page and display the message corrosponding to the current level
 // Blockly redefined functions
 //----------------------------------------------------------------------------------------
-	function inject() {
+	function inject() {     populate();
 	
 		//Blockly.Workspace.prototype.traceOn = true;
       //***********************************************************************************************
@@ -608,16 +596,308 @@
 	};
       
       //***********************************************************************************************************************
+     
+     
+/**
+ * Ensure two identically-named procedures don't exist.
+ * @param {string} name Proposed procedure name.
+ * @param {!Blockly.Block} block Block to disambiguate.
+ * @return {string} Non-colliding name.
+ */
+Blockly.Procedures.findLegalName = function(name, block) {
+  if (block.isInFlyout) {
+    // Flyouts can have multiple procedures called 'procedure'.
+    return name;
+  }
+  while (!Blockly.Procedures.isLegalName(name, block.workspace, block)) {
+    // Collision with another procedure.
+    var r = name.match(/^(.*?)(\d+)$/);
+    if (!r) {
+      if (default_procedure) { name+= 'name'; default_procedure = false;}
+      name += '1';
+    } else {
+      name = r[1] + (parseInt(r[2], 10) + 1);
+    }
+  }
+  return name;
+};
+      
+      
+      /**
+ * Does this procedure have a legal name?  Illegal names include names of
+ * procedures already defined.
+ * @param {string} name The questionable name.
+ * @param {!Blockly.Workspace} workspace The workspace to scan for collisions.
+ * @param {Blockly.Block} opt_exclude Optional block to exclude from
+ *     comparisons (one doesn't want to collide with oneself).
+ * @return {boolean} True if the name is legal.
+ */
+Blockly.Procedures.isLegalName = function(name, workspace, opt_exclude) {
+	if (name === "") { default_procedure = true; return false;}
+  var blocks = workspace.getAllBlocks();
+  // Iterate through every block and check the name.
+  for (var x = 0; x < blocks.length; x++) {
+    if (blocks[x] == opt_exclude) {
+      continue;
+    }
+    var func = blocks[x].getProcedureDef;
+    if (func) {
+      var procName = func.call(blocks[x]);
+      if (Blockly.Names.equals(procName[0], name)) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+      
+      Blockly.Tooltip.svgImg_ = null;
+      
+/**
+ * Delay before tooltip appears.
+ */
+Blockly.Tooltip.HOVER_MS = 100;
+      
+
+/**
+ * When hovering over an element, schedule a tooltip to be shown.  If a tooltip
+ * is already visible, hide it if the mouse strays out of a certain radius.
+ * @param {!Event} e Mouse event.
+ * @private
+ */
+Blockly.Tooltip.onMouseMove_ = function(e) {
+ // if (!Blockly.Tooltip.element_ || !Blockly.Tooltip.element_.tooltip) {
+    // No tooltip here to show.
+   // return;
+  //} //else if ((Blockly.ContextMenu && Blockly.ContextMenu.visible) 
+      //       ) { // ||Blockly.Block.dragMode_ != 0 COMMENT OUT DRAG MODE
+    // Don't display a tooltip when a context menu is active, or during a drag.
+    //return;
+ // }
+  if (Blockly.Tooltip.poisonedElement_ != Blockly.Tooltip.element_) {
+    // The mouse moved, clear any previously scheduled tooltip.
+    window.clearTimeout(Blockly.Tooltip.showPid_);
+    // Maybe this time the mouse will stay put.  Schedule showing of tooltip.
+    Blockly.Tooltip.lastX_ = e.clientX;
+    Blockly.Tooltip.lastY_ = e.clientY;
+    Blockly.Tooltip.showPid_ =
+        window.setTimeout(Blockly.Tooltip.show_, Blockly.Tooltip.HOVER_MS);
+  }
+};
+
+ 
+ /**
+ * Hide the tooltip.
+ */
+Blockly.Tooltip.hide = function() {
+	
+	var imgNode = document.getElementById(tipImg);
+	if (imgNode && tipImg != originalTop && tipImg != originalBottom && tipImg != originalHair && tipImg != originalShoes)
+		imgNode.style.visibility = "hidden";
+	
+	//restore original image (if any) after preview
+	imgNode = document.getElementById(tempImg);
+    if (imgNode)
+  		imgNode.style.visibility = "visible";
+  	
+  	
+  if (Blockly.Tooltip.visible) {
+    Blockly.Tooltip.visible = false;
+    
+    
+    if (Blockly.Tooltip.svgGroup_) {
+      Blockly.Tooltip.svgGroup_.style.display = 'none';
+    }
+  }
+  window.clearTimeout(Blockly.Tooltip.showPid_);
+};
+ 
+      
+      
+/**
+ * Create the tooltip and show it.
+ * @private
+ */
+Blockly.Tooltip.show_ = function() {
+  Blockly.Tooltip.poisonedElement_ = Blockly.Tooltip.element_;
+  if (!Blockly.Tooltip.svgGroup_) {
+    return;
+  }
+  // Erase all existing text.
+  goog.dom.removeChildren(
+      /** @type {!Element} */ (Blockly.Tooltip.svgText_));
+  // Create new text, line by line.
+  var tip = Blockly.Tooltip.element_.tooltip;
+  if (goog.isFunction(tip)) {
+    tip = tip();
+    //console.log ("TIP = " + tip);
+  }
+  
+  tipImg = tip;
+  var type = tipImg.substring(0,3);
+  if (type == "top")
+  	tempImg = originalTop;
+  else if (type == "bot")
+  	tempImg = originalBottom;
+  else if (type == "sho")
+  	tempImg = originalShoes;
+  else if (type == "hai")
+  	tempImg = originalHair;
+  else
+  	tempImg = '';
+  	
+  
+  var imgNode = document.getElementById(tempImg);
+  if (imgNode)
+  	imgNode.style.visibility = "hidden";
+  
+  imgNode = document.getElementById(tipImg);
+  if (imgNode) {
+  	imgNode.style.visibility = "visible";
+  	imgNode.style.zIndex = Zindex++;
+  }
+  
+  
+  
+  // Display the tooltip.
+  Blockly.Tooltip.visible = true;
+  Blockly.Tooltip.svgGroup_.style.display = 'block';
+  // Resize the background and shadow to fit.
+  var bBox = Blockly.Tooltip.svgText_.getBBox();
+  var width = 2 * Blockly.Tooltip.MARGINS + bBox.width;
+  var height = bBox.height;
+  Blockly.Tooltip.svgBackground_.setAttribute('width', width);
+  Blockly.Tooltip.svgBackground_.setAttribute('height', height);
+  Blockly.Tooltip.svgShadow_.setAttribute('width', width);
+  Blockly.Tooltip.svgShadow_.setAttribute('height', height);
+  if (Blockly.RTL) {
+    // Right-align the paragraph.
+    // This cannot be done until the tooltip is rendered on screen.
+    var maxWidth = bBox.width;
+    for (var x = 0, textElement;
+         textElement = Blockly.Tooltip.svgText_.childNodes[x]; x++) {
+      textElement.setAttribute('text-anchor', 'end');
+      textElement.setAttribute('x', maxWidth + Blockly.Tooltip.MARGINS);
+    }
+  }
+  // Move the tooltip to just below the cursor.
+  var anchorX = Blockly.Tooltip.lastX_;
+  if (Blockly.RTL) {
+    anchorX -= Blockly.Tooltip.OFFSET_X + width;
+  } else {
+    anchorX += Blockly.Tooltip.OFFSET_X;
+  }
+  var anchorY = Blockly.Tooltip.lastY_ + Blockly.Tooltip.OFFSET_Y;
+
+  // Convert the mouse coordinates into SVG coordinates.
+  var xy = Blockly.convertCoordinates(anchorX, anchorY, true);
+  anchorX = xy.x;
+  anchorY = xy.y;
+
+  var svgSize = Blockly.svgSize();
+  if (anchorY + bBox.height > svgSize.height) {
+    // Falling off the bottom of the screen; shift the tooltip up.
+    anchorY -= bBox.height + 2 * Blockly.Tooltip.OFFSET_Y;
+  }
+  if (Blockly.RTL) {
+    // Prevent falling off left edge in RTL mode.
+    anchorX = Math.max(Blockly.Tooltip.MARGINS, anchorX);
+  } else {
+    if (anchorX + bBox.width > svgSize.width - 2 * Blockly.Tooltip.MARGINS) {
+      // Falling off the right edge of the screen;
+      // clamp the tooltip on the edge.
+      anchorX = svgSize.width - bBox.width - 2 * Blockly.Tooltip.MARGINS;
+    }
+  }
+  Blockly.Tooltip.svgGroup_.setAttribute('transform',
+      'translate(' + anchorX + ',' + anchorY + ')');
+};
+      
       //***********************************************************************************************************************
+      
+    /**
+ * Show the context menu for this block.
+ * @param {number} x X-coordinate of mouse click.
+ * @param {number} y Y-coordinate of mouse click.
+ * @private
+ */
+Blockly.Block.prototype.showContextMenu_ = function(x, y) {
+  if (!this.contextMenu) {
+    return;
+  }
+  // Save the current block in a variable for use in closures.
+  var block = this;
+  var options = [];
+
+  if (this.deletable) {
+    // Option to duplicate this block.
+    var duplicateOption = {
+      text: Blockly.MSG_DUPLICATE_BLOCK,
+      enabled: true,
+      callback: function() {
+        block.duplicate_();
+      }
+    };
+    if (this.getDescendants().length > this.workspace.remainingCapacity()) {
+      duplicateOption.enabled = false;
+    }
+    options.push(duplicateOption);
+
+    // Option to delete this block.
+    // Count the number of blocks that are nested in this block.
+    var descendantCount = this.getDescendants().length;
+    if (block.nextConnection && block.nextConnection.targetConnection) {
+      // Blocks in the current stack would survive this block's deletion.
+      descendantCount -= this.nextConnection.targetBlock().
+          getDescendants().length;
+    }
+    var deleteOption = {
+      text: descendantCount == 1 ? Blockly.MSG_DELETE_BLOCK :
+          Blockly.MSG_DELETE_X_BLOCKS.replace('%1', descendantCount),
+      enabled: true,
+      callback: function() {
+        block.dispose(true, true);
+      }
+    };
+    options.push(deleteOption);
+  }
+
+  // Option to get help.
+  var url = goog.isFunction(this.helpUrl) ? this.helpUrl() : this.helpUrl;
+  var helpOption = {enabled: !!url};
+  helpOption.text = Blockly.MSG_HELP;
+  helpOption.callback = function() {
+    block.showHelp_();
+  };
+  options.push(helpOption);
+
+  // Allow the block to add or modify options.
+  if (this.customContextMenu) {
+    this.customContextMenu(options);
+  }
+
+  Blockly.ContextMenu.show(x, y, options);
+};
+    
+      
+      
+      //************************************************************************************************************************
       
       var toolbox1 = '<xml>';
       toolbox1 += '  <category></category>';
       
-      toolbox1 += '  <category name="+ Roofs"> <block type="roof"></block>';
-      toolbox1 += '</category> <category> </category>'; //close roofs
+      toolbox1 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block>';
+      toolbox1 += '</category> <category> </category>'; //close tops
       
-      toolbox1 += '<category name="+ Walls"> <block type="wall"></block>';
-      toolbox1 += '</category> <category> </category>'; //close wallls
+      toolbox1 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block>';
+      toolbox1 += '</category> <category> </category>'; //close bottoms
+      
+      toolbox1 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block>';
+      toolbox1 += '</category> <category> </category>'; //close hair
+      
+      toolbox1 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block>';
+      toolbox1 += '</category> <category> </category>'; //close shoes
+      
       toolbox1 += '</xml>';
       
       //------------------------------------------------------------------------------
@@ -628,6 +908,12 @@
       toolbox2 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block>';
       
       toolbox2 += '</category> <category> </category>'; //close bottoms
+      
+      toolbox2 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block>';
+      toolbox2 += '</category> <category> </category>'; //close hair
+      
+      toolbox2 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block>';
+      toolbox2 += '</category> <category> </category>'; //close shoes
       
       toolbox2 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
@@ -645,12 +931,18 @@
       
       toolbox3 += '</category> <category> </category>'; //close bottoms
       
+      toolbox3 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block>';
+      toolbox3 += '</category> <category> </category>'; //close hair
+      
+      toolbox3 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
+      toolbox3 += '</category> <category> </category>'; //close shoes
+      
       toolbox3 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox3 += '</category> <category> </category>'; //close coloring
       
-      toolbox3 += '<category name = "+ Controls">  <block type = "control_if"></block> <block type="going_to"></block> ';
+      toolbox3 += '<category name = "+ Controls">  <block type = "control_if"></block> <block type="weather"></block> ';
       toolbox3 += '</category> <category> </category>'; //close controls
       toolbox3 += '</xml>';
       
@@ -663,12 +955,19 @@
       
       toolbox4 += '</category> <category> </category>'; //close bottoms
       
+      
+      toolbox4 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block> <block type="hair5"></block>';
+      toolbox4 += '</category> <category> </category>'; //close hair
+      
+      toolbox4 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
+      toolbox4 += '</category> <category> </category>'; //close shoes
+      
       toolbox4 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox4 += '</category> <category> </category>'; //close coloring
       
-      toolbox4 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="going_to"></block>';
+      toolbox4 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="weather"></block>';
       toolbox4 += '</category> <category> </category>'; //close controls
       
       toolbox4 += '<category name = "+ Outfit Definitions" custom="PROCEDURE"></category>';
@@ -677,7 +976,7 @@
       
       //------------------------------------------------------------------------------
       var toolbox5 = '<xml> <category></category> ';
-      toolbox5 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="light"></block> ';
+      toolbox5 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
       toolbox5 += '</category> <category> </category>'; //close building blocks
       
       
@@ -696,11 +995,17 @@
       //------------------------------------------------------------------------------
       var toolbox6 = '<xml> <category></category> ';
       
-      toolbox6 += '<category name="+ Bottoms"> <block type="bottom1"></block>';
+      toolbox6 += '<category name="+ Bottoms"> <block type="bottom7"></block>';
       
       toolbox6 += '</category> <category> </category>'; //close bottoms
       
-      toolbox6 += '<category name="+ Coloring"> <block type="black"></block> <block type="pink"></block> <block type="grey"></block> ';
+      toolbox6 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block> <block type="hair5"></block>';
+      toolbox6 += '</category> <category> </category>'; //close hair
+      
+      toolbox6 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
+      toolbox6 += '</category> <category> </category>'; //close shoes
+      
+      toolbox6 += '<category name="+ Coloring"> <block type="black"></block> <block type="blue"></block> <block type="grey"></block> ';
                    
       toolbox6 += '</category> <category> </category>'; //close coloring
       
@@ -714,37 +1019,30 @@
       //------------------------------------------------------------------------------
       var toolbox7 = '<xml> <category></category> ';
      
+      toolbox7 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block> <block type="top3"></block> <block type="top4"></block> <block type="top5"></block> <block type="top6"> </block> <block type="top7"> </block> <block type="top8"> </block>';
+      toolbox7 += '</category> <category> </category>'; //close tops
+      
       toolbox7 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block> <block type="bottom4"></block> <block type="bottom5"></block> <block type="bottom6"></block> <block type="bottom7"></block> <block type="bottom8"></block>';
       
       toolbox7 += '</category> <category> </category>'; //close bottoms
       
-      toolbox7 += '<category name="+ Coloring"> <block type="get_color_var"></block> <block type="red"></block> <block type="blue"></block>' + 
+      toolbox7 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block> <block type="hair5"></block>';
+      toolbox7 += '</category> <category> </category>'; //close hair
+      
+      toolbox7 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
+      toolbox7 += '</category> <category> </category>'; //close shoes
+      
+      toolbox7 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox7 += '</category> <category> </category>'; //close coloring
       
-      toolbox7 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="get_color_input"></block> <block type="control_repeat"></block>';
+      toolbox7 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="going_to"></block> <block type="weather"></block> <block type="control_repeat"></block>';
       toolbox7 += '</category> <category> </category>'; //close controls
       
       toolbox7 += '<category name = "+ Outfit Definitions" custom="PROCEDURE"></category>';
       toolbox7 += '</category> <category> </category>'; //close definitions
       toolbox7 += '</xml>';
-      
-      /*
-      if (CURRENT_LEVEL > 1) {
-        toolbox += '<category name="+ Coloring"> <block type="get_color_var"></block> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
-        toolbox += '</category> <category> </category>'; //close coloring
-        if (CURRENT_LEVEL > 2) {
-          toolbox += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="going_to"></block> <block type="get_color_input"></block> <block type="control_repeat"></block>';
-          toolbox += '</category> <category> </category>'; //close controls
-          if (CURRENT_LEVEL > 3) {
-            toolbox += '<category name = "+ Outfit Definitions" custom="PROCEDURE"></category>';
-            toolbox += '</category> <category> </category>'; //close definitions
-          }
-        }  
-      }//*/
       
       
       switch(CURRENT_LEVEL)
@@ -774,11 +1072,15 @@
           Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
       }
       
-    
+      if (CURRENT_LEVEL >= 4) {
       	 if ('sessionStorage' in window ) {
-      	 	var saved_xml = '';
+      	 	var saved_xml = '<xml>';
       	 	if (sessionStorage.procedure) {
-      	 		saved_xml += sessionStorage.procedure;
+      	 		var pArr = (sessionStorage.procedure).split('#');
+      	 		for ( x=0; x < pArr.length; x++) {
+      	 			saved_xml += pArr[x];
+      	 		}
+      	 		//saved_xml += sessionStorage.procedure;
       	 		saved_xml += '</xml>';	
       	 		var xml = Blockly.Xml.textToDom(saved_xml);
       			Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
@@ -786,9 +1088,11 @@
       	 	}
       	 	
       	 }
+      	
+      }
       
       
       document.getElementById('full_text_div').innerHTML= LEVELS_MSG[CURRENT_LEVEL - 1];
-      document.getElementById('level-h').innerHTML= "Level " + CURRENT_LEVEL + " :";
-      populate();
+      //document.getElementById('level-h').innerHTML= "Level " + CURRENT_LEVEL + " :";
+      
     }

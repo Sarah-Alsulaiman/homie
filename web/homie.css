@@ -167,36 +167,22 @@ button {
 }
 
 
-.window1 {
+.windows {
    position: absolute;
    opacity: 1;
    z-index: 3;
    visibility : hidden;
-   left: 1300px;
-   top: 360px;
+   left: 1280px;
+   top: 340px;
 }
 
-
-.window2 {
-   position: absolute;
-   transition: opacity .25s ease-in-out;
-   -moz-transition: opacity .25s ease-in-out;
-   -webkit-transition: opacity .25s ease-in-out;
-   opacity: 100;
-   z-index: 3;
-   visibility : hidden;
-   left: 1490px;
-   top: 360px;
-}
-
-
-.light1 {
+.lights {
    position: absolute;
    opacity: 1;
    z-index: 4;
    visibility : hidden;
-   left: 1304px;
-   top: 364px;
+   left: 1280px;
+   top: 340px;
 }
 
 
