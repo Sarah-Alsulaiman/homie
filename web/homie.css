@@ -129,8 +129,8 @@ button {
    opacity: 100;
    z-index: 2;
    visibility : hidden;
-   left: 1270px;
-   top: 342px;
+   left: 1230px;
+   top: 295px;
 }
 
 
@@ -140,17 +140,17 @@ button {
    -moz-transition: opacity .25s ease-in-out;
    -webkit-transition: opacity .25s ease-in-out;
    opacity: 100;
-   z-index: 3;
+   z-index: 2;
    visibility : hidden;
    left: 1400px;
-   top: 460px;
+   top: 440px;
 }
 
 
 .windows {
    position: absolute;
    opacity: 1;
-   z-index: 3;
+   z-index: 2;
    visibility : hidden;
    left: 1280px;
    top: 340px;
@@ -159,9 +159,9 @@ button {
 .lights {
    position: absolute;
    opacity: 1;
-   z-index: 4;
+   z-index: 2;
    visibility : hidden;
-   left: 1280px;
+   left: 1228px;
    top: 340px;
 }
 

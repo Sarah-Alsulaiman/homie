@@ -108,7 +108,7 @@ Blockly.Language.windows = {
 };
 
 //-------------------------------------------------------------------------
-// light
+// lights
 //-------------------------------------------------------------------------
 Blockly.Language.lights = {
 	helpUrl: 'http://www.example.com/',
@@ -119,7 +119,15 @@ Blockly.Language.lights = {
         .appendTitle(new Blockly.FieldDropdown([["on", "on"], ["off", "off"]]), "lights");
         this.setPreviousStatement(true);
     	this.setNextStatement(true);
-    this.setTooltip('');
+    	var thisBlock = this; 
+	    this.setTooltip( function() {
+	      					var state = thisBlock.getTitleValue('lights');
+	      					if (state == 'on')
+	      						return 'lights-on';
+	      					else 
+	      						return 'lights-off';
+	    				}
+					   );
   }
 };
 
