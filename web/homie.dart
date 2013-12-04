@@ -195,11 +195,11 @@ void compile(String json) {
   // Validate user answers here...
   //format blocks = [ [blockName, value, levels] ]
   
-  if (ERR_MSG.isEmpty)
+  /*if (ERR_MSG.isEmpty)
     validate();
   
   else
-    check_input = false;
+    check_input = false;*/
 }
 
 
@@ -304,6 +304,7 @@ void interpret (List commands) {
         
         if (consider) {
           outfits.add(outfit);
+          //print(outfit + " ADDED!");
         }
       
       }

@@ -27,6 +27,8 @@
     var originalDoor;
     var originalWall;
     var originalWindows;
+    var originalLights;
+    var originalZindex;
     
     var tempImg;
     var Zindex = 3;
@@ -143,9 +145,15 @@
           
         }
         
+        var imgL1= document.createElement("img");
+        imgL1.src = 'images/lights-on.png';
+        imgL1.id = 'lights-on';
+        imgL1.className = 'lights';
+        document.getElementById("images").appendChild(imgL1);
+        
         var imgL2= document.createElement("img");
-        imgL2.src = 'images/lights.png';
-        imgL2.id = 'lights';
+        imgL2.src = 'images/lights-off.png';
+        imgL2.id = 'lights-off';
         imgL2.className = 'lights';
         document.getElementById("images").appendChild(imgL2);
                       
@@ -157,7 +165,6 @@
 	
     function setHtmlVisibility(id, visible) {
 		var el = document.getElementById(String(id));
-		//console.log("VISIBILITY FOR: " +id);
 		var item = id.split("-");
 		
 		switch (item[0]) {
@@ -176,31 +183,23 @@
 			case 'door':
 				originalDoor = id;
 				break;
+			
+			case 'lights':
+				originalLights = id;
+				break;
 				
+			default:
+				break;
 			
 		}
 		
 		hideVariations(item[0]);
-        
-       	if (item[0] =="lights") {
-       		el = document.getElementById('lights');
-            if (id[1] == "on") {
-            	console.log("LIGHTS ON!!!" + id);
-	            el.style.visibility = "visible";
-            }
-                        
-            else {
-                el.style.visibility = "hidden";
                 
-            }
-        }
                 
-        else { //windows - door - roof - wall           
-            if (el) {
+        if (el) {
             	el.style.visibility = visible ? "visible" : "hidden";
-            }
-                        
         }
+                        
                              
    }
    	
@@ -216,13 +215,14 @@
 	  			 
 	}
 	
-	else if (variation == "lights") {
-		el = document.getElementById(variation);
+	/*else if (variation == "lights") {
+		var item = variation.concat("-", "on");
+		el = document.getElementById(item);
 		if (el)
 		el.style.visibility = "hidden";
-	}
+	}*/
    		
-	var places = ['morning', 'evening', 'teacher', 'friend'];
+	var places = ['morning', 'evening', 'teacher', 'friend', 'lights-on', 'lights-off'];
    			
 	for ( var i=0; i < places.length; i++) {
 	    var bg = document.getElementById(places[i]);
@@ -290,7 +290,6 @@
 	      	}
 	      	
 	      	else if (parts[1] == "DONE!") {
-	        	//console.log("HTML received message from dart " + event);
 	        	playing = false;
 	        	window.setTimeout(function() { advanceLevel(); }, 500);
 	      	}
@@ -301,7 +300,7 @@
 		      	setHtmlVisibility(bg, true);
 	      	}
 	      	
-	      	else {		// received an outfit to display
+	      	else if (parts[1].substring(0,7) == "outfit "){		// received an outfit to display
 	      		//console.log("HTML received message from dart for outfit " + event);
 		      	var outfit = parts[1].substring(7);
 		      	setHtmlVisibility(outfit, true);
@@ -704,13 +703,27 @@ Blockly.Tooltip.onMouseMove_ = function(e) {
 Blockly.Tooltip.hide = function() {
 	
 	var imgNode = document.getElementById(tipImg);
-	if (imgNode && tipImg != originalRoof && tipImg != originalWall && tipImg != originalDoor && tipImg != originalWindows)
-		imgNode.style.visibility = "hidden";
+	if (imgNode) {
+		if (tipImg != originalRoof && tipImg != originalWall && tipImg != originalDoor && tipImg != originalWindows && tipImg != originalLights) {
+			imgNode.style.visibility = "hidden";
+			
+		}
+		else {
+		
+		
+		
+		}
+	
+	}
 	
 	//restore original image (if any) after preview
-	imgNode = document.getElementById(tempImg);
-    if (imgNode)
-  		imgNode.style.visibility = "visible";
+			imgNode = document.getElementById(tempImg);
+		    if (imgNode) {
+		  		imgNode.style.visibility = "visible";
+		  		imgNode.style.zIndex = originalZindex;
+		  	}
+	
+	
   	
   	
   if (Blockly.Tooltip.visible) {
@@ -755,13 +768,17 @@ Blockly.Tooltip.show_ = function() {
   	tempImg = originalDoor;
   else if (type[0] == "windows")
   	tempImg = originalWindows;
+  else if (type[0] == "lights")
+  	tempImg = originalLights;
   else
   	tempImg = '';
   	
   
   var imgNode = document.getElementById(tempImg);
-  if (imgNode)
+  if (imgNode) {
   	imgNode.style.visibility = "hidden";
+  	originalZindex = imgNode.style.zIndex;
+  }
   
   imgNode = document.getElementById(tipImg);
   if (imgNode) {
