@@ -36,7 +36,7 @@ bool check_input = false;
 
 //format [ [blockName, value, levels] ]
 List blocks = [  ['repeat', false, 6],  ['lights', false, 2], ['lights_on', false, 2],
-                 ['roof', false, 1,2,3,4,5,6],  ['wall', false, 1,2,3,4,5,6],  ['door', false, 1,2,3,4,5,6],  ['windows', false, 1,2,3,4,5,6],
+                 ['roof', false, 1,2,3,4,5,6], ['windows', false, 1,2,3,4,5,6], ['door', false, 1,2,3,4,5,6], ['wall', false, 1,2,3,4,5,6],
                  ['abstraction', false, 4, 5], ['call', false, 4, 5], ['func', false, 4, 5],
                  ['other', false, 3, 5], ['then', false, 3, 5],
                  ['time', false, 3], ['drawing', false, 5], ['if', false, 3, 5],
@@ -121,9 +121,9 @@ void main() {
   block_name['lights_on'] = 2;
   
   block_name['roof'] = 3;
-  block_name['wall'] = 4;
+  block_name['windows'] = 4;
   block_name['door'] = 5;
-  block_name['windows'] = 6;
+  block_name['wall'] = 6;
  
   
   block_name['abstraction'] = 7;
@@ -195,11 +195,11 @@ void compile(String json) {
   // Validate user answers here...
   //format blocks = [ [blockName, value, levels] ]
   
-  /*if (ERR_MSG.isEmpty)
+  if (ERR_MSG.isEmpty)
     validate();
   
   else
-    check_input = false;*/
+    check_input = false;
 }
 
 
