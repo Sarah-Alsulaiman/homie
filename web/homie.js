@@ -11,6 +11,7 @@
                         " Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
                         " Can you build a house so that when the city is your town, your favorite house will be built, otherwise, a different house will be built",
                         " Can you build a flashing house? a flashing house will keep turning on and off the lights over and over again!",
+                       	" Now, you can play with the blocks as you like!",
                        ];
    
     var colors = ['red', 'blue'];
@@ -912,94 +913,65 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       
       //************************************************************************************************************************
       
-      var toolbox1 = '<xml>';
-      toolbox1 += '  <category></category>';
+      var toolbox1 = '<xml> <category></category> ';
+      toolbox1 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>';
+      toolbox1 += '</category> <category> </category>'; //close building blocks
       
-      toolbox1 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block>';
-      toolbox1 += '</category> <category> </category>'; //close tops
       
-      toolbox1 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block>';
-      toolbox1 += '</category> <category> </category>'; //close bottoms
+      toolbox1 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
+                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox1 += '</category> <category> </category>'; //close coloring
       
-      toolbox1 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block>';
-      toolbox1 += '</category> <category> </category>'; //close hair
-      
-      toolbox1 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block>';
-      toolbox1 += '</category> <category> </category>'; //close shoes
-      
+     
       toolbox1 += '</xml>';
       
       //------------------------------------------------------------------------------
       var toolbox2 = '<xml> <category></category> ';
-      toolbox2 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block> <block type="top3"></block>';
-      toolbox2 += '</category> <category> </category>'; //close tops
+      toolbox2 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      toolbox2 += '</category> <category> </category>'; //close building blocks
       
-      toolbox2 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block>';
-      
-      toolbox2 += '</category> <category> </category>'; //close bottoms
-      
-      toolbox2 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block>';
-      toolbox2 += '</category> <category> </category>'; //close hair
-      
-      toolbox2 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block>';
-      toolbox2 += '</category> <category> </category>'; //close shoes
       
       toolbox2 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox2 += '</category> <category> </category>'; //close coloring
       
-      toolbox2 += '</xml>';
+      
+      toolbox2+= '</xml>';
       
       //------------------------------------------------------------------------------
       var toolbox3 = '<xml> <category></category> ';
-      toolbox3 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block> <block type="top3"></block> <block type="top4"></block>';
-      toolbox3 += '</category> <category> </category>'; //close tops
+      toolbox3 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      toolbox3 += '</category> <category> </category>'; //close building blocks
       
-      toolbox3 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block> <block type="bottom4"></block>';
-      
-      toolbox3 += '</category> <category> </category>'; //close bottoms
-      
-      toolbox3 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block>';
-      toolbox3 += '</category> <category> </category>'; //close hair
-      
-      toolbox3 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
-      toolbox3 += '</category> <category> </category>'; //close shoes
       
       toolbox3 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox3 += '</category> <category> </category>'; //close coloring
       
-      toolbox3 += '<category name = "+ Controls">  <block type = "control_if"></block> <block type="weather"></block> ';
+      toolbox3 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block>';
       toolbox3 += '</category> <category> </category>'; //close controls
+      
+      
       toolbox3 += '</xml>';
       
       //------------------------------------------------------------------------------
       var toolbox4 = '<xml> <category></category> ';
-      toolbox4 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block> <block type="top3"></block> <block type="top4"></block> <block type="top5"></block>';
-      toolbox4 += '</category> <category> </category>'; //close tops
+      toolbox4 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      toolbox4 += '</category> <category> </category>'; //close building blocks
       
-      toolbox4 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block> <block type="bottom4"></block> <block type="bottom5"></block>';
-      
-      toolbox4 += '</category> <category> </category>'; //close bottoms
-      
-      
-      toolbox4 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block> <block type="hair5"></block>';
-      toolbox4 += '</category> <category> </category>'; //close hair
-      
-      toolbox4 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
-      toolbox4 += '</category> <category> </category>'; //close shoes
       
       toolbox4 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox4 += '</category> <category> </category>'; //close coloring
       
-      toolbox4 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="weather"></block>';
+      toolbox4 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block>';
       toolbox4 += '</category> <category> </category>'; //close controls
       
-      toolbox4 += '<category name = "+ Outfit Definitions" custom="PROCEDURE"></category>';
+      toolbox4 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
       toolbox4 += '</category> <category> </category>'; //close definitions
       toolbox4 += '</xml>';
       
@@ -1014,7 +986,7 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox5 += '</category> <category> </category>'; //close coloring
       
-      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
+      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block>';
       toolbox5 += '</category> <category> </category>'; //close controls
       
       toolbox5 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
@@ -1023,82 +995,51 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       
       //------------------------------------------------------------------------------
       var toolbox6 = '<xml> <category></category> ';
+      toolbox6 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      toolbox6 += '</category> <category> </category>'; //close building blocks
       
-      toolbox6 += '<category name="+ Bottoms"> <block type="bottom7"></block>';
       
-      toolbox6 += '</category> <category> </category>'; //close bottoms
-      
-      toolbox6 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block> <block type="hair5"></block>';
-      toolbox6 += '</category> <category> </category>'; //close hair
-      
-      toolbox6 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
-      toolbox6 += '</category> <category> </category>'; //close shoes
-      
-      toolbox6 += '<category name="+ Coloring"> <block type="black"></block> <block type="blue"></block> <block type="grey"></block> ';
-                   
+      toolbox6 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
+                    '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox6 += '</category> <category> </category>'; //close coloring
       
-      toolbox6 += '<category name = "+ Controls"> <block type="control_repeat"></block>';
+      toolbox6 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
       toolbox6 += '</category> <category> </category>'; //close controls
       
-      toolbox6 += '<category name = "+ Outfit Definitions" custom="PROCEDURE"></category>';
+      toolbox6 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
       toolbox6 += '</category> <category> </category>'; //close definitions
       toolbox6 += '</xml>';
       
       //------------------------------------------------------------------------------
-      var toolbox7 = '<xml> <category></category> ';
      
-      toolbox7 += '  <category name="+ Tops"> <block type="top1"></block> <block type="top2"></block> <block type="top3"></block> <block type="top4"></block> <block type="top5"></block> <block type="top6"> </block> <block type="top7"> </block> <block type="top8"> </block>';
-      toolbox7 += '</category> <category> </category>'; //close tops
-      
-      toolbox7 += '<category name="+ Bottoms"> <block type="bottom1"></block> <block type="bottom2"></block> <block type="bottom3"></block> <block type="bottom4"></block> <block type="bottom5"></block> <block type="bottom6"></block> <block type="bottom7"></block> <block type="bottom8"></block>';
-      
-      toolbox7 += '</category> <category> </category>'; //close bottoms
-      
-      toolbox7 += '<category name="+ Hair"> <block type="hair1"></block> <block type="hair2"></block> <block type="hair3"></block> <block type="hair4"></block> <block type="hair5"></block>';
-      toolbox7 += '</category> <category> </category>'; //close hair
-      
-      toolbox7 += '<category name="+ Shoes"> <block type="shoes1"></block> <block type="shoes2"></block> <block type="shoes3"></block> <block type="shoes4"></block>';
-      toolbox7 += '</category> <category> </category>'; //close shoes
-      
-      toolbox7 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
-      toolbox7 += '</category> <category> </category>'; //close coloring
-      
-      toolbox7 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="going_to"></block> <block type="weather"></block> <block type="control_repeat"></block>';
-      toolbox7 += '</category> <category> </category>'; //close controls
-      
-      toolbox7 += '<category name = "+ Outfit Definitions" custom="PROCEDURE"></category>';
-      toolbox7 += '</category> <category> </category>'; //close definitions
-      toolbox7 += '</xml>';
       
       
       switch(CURRENT_LEVEL)
       {
         case 1:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox1 } );
           break;
         case 2:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox2 } );
           break;
         case 3:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox3 } );
           break;
         case 4:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox4 } );
           break; 
         case 5:
           Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
           break;
         case 6:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
           break;
         case 7:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
           break;  
         default:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
       }
       
       if (CURRENT_LEVEL >= 4) {
