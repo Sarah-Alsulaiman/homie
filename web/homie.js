@@ -199,6 +199,7 @@
                 
         if (el) {
             	el.style.visibility = visible ? "visible" : "hidden";
+            	el.style.zIndex = Zindex++;
         }
                         
                              
@@ -206,29 +207,33 @@
    	
    	
     function hideVariations (variation) {
-   	if (variation == "roof" || variation == "wall" || variation == "door" || variation == "windows") {
-	    for (var j=0; j < colors.length; j++) {
-			var item = variation.concat("-",colors[j].toString());
+	   	if (variation == "roof" || variation == "wall" || variation == "door" || variation == "windows") {
+		    for (var j=0; j < colors.length; j++) {
+				var item = variation.concat("-",colors[j].toString());
+		    	item = document.getElementById(item);
+	            item.style.visibility = "hidden";
+		        		
+		    }
+		  			 
+		}
+	   		
+	    else if (variation == "lights") {
+	    	var item = variation.concat("-", "on");
 	    	item = document.getElementById(item);
-            item.style.visibility = "hidden";
-	        		
+	        item.style.visibility = "hidden";
+	        
+	        var item2 = variation.concat("-","off");
+	        item2 = document.getElementById(item2);
+	        item2.style.visibility = "hidden";
+	    	
+	    
 	    }
-	  			 
-	}
-	
-	/*else if (variation == "lights") {
-		var item = variation.concat("-", "on");
-		el = document.getElementById(item);
-		if (el)
-		el.style.visibility = "hidden";
-	}*/
-   		
-	var places = ['morning', 'evening', 'teacher', 'friend', 'lights-on', 'lights-off'];
-   			
-	for ( var i=0; i < places.length; i++) {
-	    var bg = document.getElementById(places[i]);
-	    bg.style.visibility = "hidden";
-	}
+		var places = ['morning', 'evening', 'teacher', 'friend'];
+	   			
+		for ( var i=0; i < places.length; i++) {
+		    var bg = document.getElementById(places[i]);
+		    bg.style.visibility = "hidden";
+		}
    			
     }
    
@@ -302,7 +307,7 @@
 	      	}
 	      	
 	      	else if (parts[1].substring(0,7) == "outfit "){		// received an outfit to display
-	      		//console.log("HTML received message from dart for outfit " + event);
+	      		console.log("HTML received message from dart for block " + event);
 		      	var outfit = parts[1].substring(7);
 		      	setHtmlVisibility(outfit, true);
 		      

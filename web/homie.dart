@@ -148,8 +148,8 @@ void main() {
   text['door'] = "Make sure you add a door to your house!";
   text['windows'] = "Make sure you add windows to your house!";
   
-  text['other'] = "Make sure you choose an outfit for each case";
-  text['then'] = "Make sure you choose an outfit for each case";
+  text['other'] = "Make sure you choose a house for each case";
+  text['then'] = "Make sure you choose a house for each case";
   text['time'] = "Remember, it might be a morning or evening";
   text['drawing'] = "Remember, there are two cases";
   text['if'] = "Choose a block to help you decide";
