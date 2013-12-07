@@ -48,9 +48,16 @@ var CURRENT_LEVEL = 1;
 var CURRENT_block;
 String ERR_MSG = '';
 
+String LIGHT_ISSUE = '';
 var CURRENT_PERSON;
 var CURRENT_TIME;
 
+String ERROR_BLOCK = '';
+String CURRENT_BLOCK = '';
+String CHECK_AGAINST = '';
+bool satisfied = false;
+String ERROR_THEN = '';
+String ERROR_OTHER = '';
 // write blocks[top] = true and then another map uses[top] = levels...
 Map block_name = new Map <String, int>();
 Map text = new Map <String, String> ();
@@ -158,6 +165,7 @@ void main() {
   text['call'] = "You created a definition but didn't use it!";
   text['func'] = "Outfit definitions menu help you create a shortcut";
   
+  
 }
 
 //--------------------------------------------------------------------------
@@ -190,13 +198,28 @@ void compile(String json) {
   //print(commands);
   
   
-  interpret(commands);
+  interpret(commands, true);
   
   // Validate user answers here...
   //format blocks = [ [blockName, value, levels] ]
   
-  if (ERR_MSG.isEmpty)
+  if (ERR_MSG.isEmpty) {
     validate();
+    if (check_input) {
+      if (ERROR_THEN.isNotEmpty) {
+        ERR_MSG = ERROR_THEN;
+        check_input = false;
+      }
+        
+      if (ERROR_OTHER.isNotEmpty) {
+        ERR_MSG = ERROR_OTHER;
+        check_input = false;
+      }
+        
+    }
+      
+  }
+    
   
   else
     check_input = false;
@@ -260,7 +283,7 @@ void display() {
 //--------------------------------------------------------------------------
 // Interpret the user program
 //--------------------------------------------------------------------------
-void interpret (List commands) { 
+void interpret (List commands, bool consider) { 
   for (int j=0; j<commands.length; j++) {
     if (commands[j] is !List || commands[j][0] == "GET") { //ensure output blocks are connected
       break;
@@ -299,9 +322,51 @@ void interpret (List commands) {
           if (color == "on") {
             blocks[block_name['lights_on']][1]= true; 
           }
+        }
+        
+        if (CURRENT_LEVEL == "3" && color == "on") {
+          if (CHECK_AGAINST == "morning") {
+            if (CURRENT_BLOCK == "then") {
+              ERR_MSG = 'lights_on_mismatch'; ERROR_BLOCK = 'lights_on_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK); ERROR_THEN = 'lights_on_mismatch';
+            }
+            else { //current is other
+              ERR_MSG = ''; ERROR_OTHER = '';
+            }
+            
+          }
+          
+          else { //check against is evening 
+            if (CURRENT_BLOCK == "then") {
+              ERR_MSG = ''; ERROR_THEN = '';
+            }
+            else { //current is other
+              ERR_MSG = 'lights_on_mismatch'; ERROR_BLOCK = 'lights_on_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK); ERROR_OTHER = 'lights_on_mismatch';
+            }
+          }
           
         }
         
+        else if (CURRENT_LEVEL == "3" && color == "off") {
+          if (CHECK_AGAINST == "morning") {
+            if (CURRENT_BLOCK == "then") {
+              ERR_MSG = '';  ERROR_THEN = '';
+            }
+            else { //current is other
+              ERR_MSG = 'lights_off_mismatch'; ERROR_BLOCK = 'lights_off_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK);  ERROR_OTHER = 'lights_off_mismatch';
+            }
+            
+          }
+          
+          else { //check against is evening 
+            if (CURRENT_BLOCK == "then") {
+              ERR_MSG = 'lights_off_mismatch'; ERROR_BLOCK = 'lights_off_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK);  ERROR_THEN = 'lights_off_mismatch'; 
+            }
+            else { //current is other
+              ERR_MSG = ''; ERROR_OTHER = '';
+            }
+          }
+          
+        }
         if (consider) {
           outfits.add(outfit);
           //print(outfit + " ADDED!");
@@ -325,7 +390,7 @@ void processRepeat(List nested) {
   blocks[block_name['repeat']][1] = true; print("repeat FOUND");
   
   for (var i=0; i < count; i++) {
-    interpret(block);
+    interpret(block, true);
   }
 }
 
@@ -344,7 +409,7 @@ void processCall(List nested) {
       block = subroutines[i][1];
       if (block.length >= 1) {blocks[block_name['abstraction']][1] = true;}
       
-      interpret(block);
+      interpret(block,true);
     }
   }
    
@@ -367,11 +432,14 @@ void processIf(List nested) {
   if (other.length >= 1) {blocks[block_name['other']][1] = true; print("OTHER POPULATED");}
   
   if (condition != 0) {
-    if (condition == "Drawing") { //DRAWING FOR block is connected to IF block
+    /*if (condition == "Drawing") { //DRAWING FOR block is connected to IF block
       blocks[block_name['drawing']][1] = true;
       
+          
       consider = false;
+      CURRENT_BLOCK = 'then';
       interpret(then);
+      CURRENT_BLOCK = 'other';
       interpret(other);
       
       consider = true;
@@ -380,30 +448,50 @@ void processIf(List nested) {
       if (result.length != 0)
         interpret(result);
         
-    }
+    }*/
       
      
-    else if (condition == "Time")  {  //TIME CONDITION
+    if (condition == "Time")  {  //TIME CONDITION
       blocks[block_name['time']][1] = true;
+      CHECK_AGAINST = (nested[1][1] == "morning")? "morning" : "evening";
       
-      consider = false;
+      if (nested[1][1] == CURRENT_TIME) {
+        satisfied = true;
+        CURRENT_BLOCK = 'then';
+        interpret(then, true);
+        CURRENT_BLOCK = 'other';
+        interpret(other, false);
+      }
+      
+      else {
+        satisfied = false;
+        CURRENT_BLOCK = 'other';
+        interpret(other, true);
+        CURRENT_BLOCK = 'then';
+        interpret(then, false);
+        
+      }
+      /*consider = false;
       interpret(then);
       interpret(other);
       
       consider = true;
       result = (nested[1][1] == CURRENT_TIME)? then : other;
-      interpret(result);
+      interpret(result);*/
+      
+      
     }
+  
+  
   }
   
   else { //nothing is connected to if statement
     
     consider = false;
-    interpret(then);
-    interpret(other);
+    interpret(then, false);
     
     consider = true;
-    interpret(other);
+    interpret(other, true);
     
   }
 
@@ -450,7 +538,8 @@ void randomize() {
   
   CURRENT_TIME = time[x];
   
-  
+  text['lights_on_mismatch'] = "When it's morning, <br> Let's save energy and always turn the lights off!";
+  text['lights_off_mismatch'] = "When it's dark outside, <br> Let's switch the lights on!";
   
 }
 

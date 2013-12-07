@@ -6,7 +6,7 @@
     var MIN_LEVEL = 1;
     var CURRENT_LEVEL = getLevel();
     var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you build a home using these blocks<br><br>",
-                        " Can you to build a house with different colors and switch the lights on?",
+                        " Can you to build a house with different colors and switch the lights on? <br>",
                         " Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
                         " Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
                         " Can you build a house so that when the city is your town, your favorite house will be built, otherwise, a different house will be built",
@@ -14,7 +14,7 @@
                        	" Now, you can play with the blocks as you like!",
                        ];
    
-    var colors = ['red', 'blue'];
+    var COLORS = ['red', 'blue'];
     var playing = false;
     var error = '';
     
@@ -84,21 +84,21 @@
 // Redirect to the next level
 //---------------------------------------------------------------------------
     function advanceLevel () {
-	storeProcedure();
-	if (CURRENT_LEVEL < MAX_LEVEL - 1) {
-	    $.jqDialog.confirm("Wonderful!<BR/> <BR/> Would you like to continue? ".replace('%1', CURRENT_LEVEL + 1),
-	    function() { window.location = window.location.protocol + '//' +
-                     window.location.host + window.location.pathname +
-                     '?level=' + (CURRENT_LEVEL + 1); },    // callback function for 'YES' button
-        
-	    function() {  }    // callback function for 'NO' button
-	    );  
-	}
-      
-	else if (CURRENT_LEVEL == MAX_LEVEL - 1) {
-	    $.jqDialog.alert("<center> Congratulations! <br> You finished all activities <br> <br>Now, you can play with all blocks as you like</center>", 
-            function() { window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?level=' + (CURRENT_LEVEL + 1);  }); // callback function for 'OK' button
-	}   
+		storeProcedure();
+		if (CURRENT_LEVEL < MAX_LEVEL - 1) {
+		    $.jqDialog.confirm("Wonderful!<BR/> <BR/> Would you like to continue? ".replace('%1', CURRENT_LEVEL + 1),
+		    function() { window.location = window.location.protocol + '//' +
+	                     window.location.host + window.location.pathname +
+	                     '?level=' + (CURRENT_LEVEL + 1); },    // callback function for 'YES' button
+	        
+		    function() {  }    // callback function for 'NO' button
+		    );  
+		}
+	      
+		else if (CURRENT_LEVEL == MAX_LEVEL - 1) {
+		    $.jqDialog.alert("<center> Congratulations! <br> You finished all activities <br> <br>Now, you can play with all blocks as you like</center>", 
+	            function() { window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?level=' + (CURRENT_LEVEL + 1);  }); // callback function for 'OK' button
+		}   
     }
  
  
@@ -208,8 +208,8 @@
    	
     function hideVariations (variation) {
 	   	if (variation == "roof" || variation == "wall" || variation == "door" || variation == "windows") {
-		    for (var j=0; j < colors.length; j++) {
-				var item = variation.concat("-",colors[j].toString());
+		    for (var j=0; j < COLORS.length; j++) {
+				var item = variation.concat("-",COLORS[j].toString());
 		    	item = document.getElementById(item);
 	            item.style.visibility = "hidden";
 		        		
@@ -307,7 +307,7 @@
 	      	}
 	      	
 	      	else if (parts[1].substring(0,7) == "outfit "){		// received an outfit to display
-	      		console.log("HTML received message from dart for block " + event);
+	      		//console.log("HTML received message from dart for block " + event);
 		      	var outfit = parts[1].substring(7);
 		      	setHtmlVisibility(outfit, true);
 		      
@@ -389,7 +389,7 @@
       }
       
       else {
-      	alert("still generating previous outfit");
+      	alert("still generating previous house");
       
       }
     }
@@ -401,7 +401,7 @@
 //----------------------------------------------------------------------------------------
 	function inject() {     populate();
 	
-		//Blockly.Workspace.prototype.traceOn = true;
+		Blockly.Workspace.traceOn = true;
       //***********************************************************************************************
       Blockly.makeColour = function(hue, sat, val) {
 		  return goog.color.hsvToHex(hue, sat,
