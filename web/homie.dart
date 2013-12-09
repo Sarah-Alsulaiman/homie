@@ -72,17 +72,11 @@ void main() {
     
     if (msg.startsWith("@dart")) {
       CURRENT_LEVEL = msg.substring(5,6);
-      //print("CURRENT LEVEL = " + CURRENT_LEVEL);
+      text['if'] = (CURRENT_LEVEL == "3") ? "You need to account for lights depending on the time" : "You need to account for a house in Riyadh and another in Jeddah";
       
+    
       parts = msg.split("#");
       randomize();
-      /*if (CURRENT_LEVEL == "7") {
-        var level7_top = "top2-";
-        level7_top += CURRENT_COLOR;
-        sendMessage("outfit " + level7_top);
-      }*/
-      
-      //print("COMPILE THIS: " + parts[1]);
       compile(parts[1]);
       
       print('Dart received code from HTML ');
@@ -94,17 +88,15 @@ void main() {
       timer = new Timer.periodic(new Duration(milliseconds: 1000), (Timer t) {
         if (outfits.length == 0) {
           timer.cancel();
-          if (CURRENT_LEVEL == "3") {
-            String background = CURRENT_TIME;
-            sendMessage("bg " + background);
-          }
-          
-          else if (CURRENT_LEVEL == "5") {
-            String background = CURRENT_CITY;
-            sendMessage("bg " + background);
-            
-          }
           if (check_input) {
+            if (CURRENT_LEVEL == "3") {
+              String background = CURRENT_TIME;
+              sendMessage("bg " + background);
+            }
+            else if (CURRENT_LEVEL == "5") {
+              String background = CURRENT_CITY;
+              sendMessage("bg " + background);
+            }
             sendMessage("DONE!");
           }
           
@@ -158,7 +150,9 @@ void main() {
   text['then'] = "Make sure you choose a house for each case";
   text['time'] = "Remember, it might be a morning or evening";
   text['drawing'] = "Remember, there are two cases";
-  text['if'] = "Choose a block to help you decide";
+  
+ 
+  
   
   text['abstraction'] = "Make sure you fill the definition";
   text['call'] = "You created a definition but didn't use it!";
@@ -215,13 +209,14 @@ void compile(String json) {
         ERR_MSG = ERROR_OTHER;
         check_input = false;
       }
-        
+      
+      if (CURRENT_LEVEL == "5" && ! procedure_riyadh) {
+        ERR_MSG = 'city';
+        check_input = false;
+      }
+      
     }
     
-    if (CURRENT_LEVEL == "5" && ! procedure_riyadh) {
-      ERR_MSG = 'city';
-      check_input = false;
-    }
     
   }
     
