@@ -127,8 +127,8 @@ Blockly.JavaScript.time_is = function() {
 
 
 Blockly.JavaScript.drawing_for = function() {
-	var person = this.getTitleValue('drawing_for');
-	var code = '"Drawing", "' + person + '"';
+	var city = this.getTitleValue('drawing_for');
+	var code = '"Drawing", "' + city + '"';
 	
 	return [code, Blockly.JavaScript.ORDER_NONE];
 };

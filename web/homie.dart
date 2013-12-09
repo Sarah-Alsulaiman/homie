@@ -16,8 +16,8 @@ List commands;
 /** Timer to call display periodically **/
 Timer timer;
 
-/** Random Place **/
-String CURRENT_PLACE;
+/** Random CITY **/
+String CURRENT_CITY;
 
 /** Random Color **/
 String CURRENT_COLOR;
@@ -45,19 +45,18 @@ List blocks = [  ['repeat', false, 6],  ['lights', false, 2], ['lights_on', fals
 
 
 var CURRENT_LEVEL = 1;
-var CURRENT_block;
 String ERR_MSG = '';
 
-String LIGHT_ISSUE = '';
 var CURRENT_PERSON;
 var CURRENT_TIME;
 
-String ERROR_BLOCK = '';
 String CURRENT_BLOCK = '';
 String CHECK_AGAINST = '';
-bool satisfied = false;
+
 String ERROR_THEN = '';
 String ERROR_OTHER = '';
+
+bool procedure_riyadh;
 // write blocks[top] = true and then another map uses[top] = levels...
 Map block_name = new Map <String, int>();
 Map text = new Map <String, String> ();
@@ -101,7 +100,7 @@ void main() {
           }
           
           else if (CURRENT_LEVEL == "5") {
-            String background = CURRENT_PERSON;
+            String background = CURRENT_CITY;
             sendMessage("bg " + background);
             
           }
@@ -164,6 +163,7 @@ void main() {
   text['abstraction'] = "Make sure you fill the definition";
   text['call'] = "You created a definition but didn't use it!";
   text['func'] = "Outfit definitions menu help you create a shortcut";
+  text['city'] = "Remember, you need to build your favorite house in Riyadh!";
   
   
 }
@@ -174,7 +174,7 @@ void main() {
 void compile(String json) {
   outfits.clear();
   clearBlocks();
-  
+  procedure_riyadh = false;
   ERR_MSG = '';
   
   check_input = true;
@@ -183,7 +183,7 @@ void compile(String json) {
   var function_end = json.lastIndexOf('}');
   
   if (function_end != -1 && function_begin != -1 ) {
-    blocks[block_name['func']][1] = true; print("FUNC FOUND");
+    blocks[block_name['func']][1] = true; //print("FUNC FOUND");
     var functionsLine = json.substring(function_begin, function_end+1);
     functionsLine = (((functionsLine.replaceAll('{', '')).replaceAll('}', ''))
                       .replaceAll('\n', '')).replaceAll('][', '], [');
@@ -217,7 +217,12 @@ void compile(String json) {
       }
         
     }
-      
+    
+    if (CURRENT_LEVEL == "5" && ! procedure_riyadh) {
+      ERR_MSG = 'city';
+      check_input = false;
+    }
+    
   }
     
   
@@ -292,9 +297,9 @@ void interpret (List commands, bool consider) {
       List nested = commands[j] as List;
       //print("inner = ${nested.length} ");
       
-      if (nested[0] == "if") {processIf(nested);}
-      else if (nested[0] == "repeat") {processRepeat(nested);}
-      else if (nested[0] == "CALL") {processCall(nested);}
+      if (nested[0] == "if") {processIf(nested, consider);}
+      else if (nested[0] == "repeat") {processRepeat(nested, consider);}
+      else if (nested[0] == "CALL") {processCall(nested, consider);}
       else { //not a block
         var part = nested[0];
         var color = nested[1];
@@ -327,20 +332,20 @@ void interpret (List commands, bool consider) {
         if (CURRENT_LEVEL == "3" && color == "on") {
           if (CHECK_AGAINST == "morning") {
             if (CURRENT_BLOCK == "then") {
-              ERR_MSG = 'lights_on_mismatch'; ERROR_BLOCK = 'lights_on_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK); ERROR_THEN = 'lights_on_mismatch';
+              ERROR_THEN = 'lights_on_mismatch';
             }
             else { //current is other
-              ERR_MSG = ''; ERROR_OTHER = '';
+             ERROR_OTHER = '';
             }
             
           }
           
           else { //check against is evening 
             if (CURRENT_BLOCK == "then") {
-              ERR_MSG = ''; ERROR_THEN = '';
+              ERROR_THEN = '';
             }
             else { //current is other
-              ERR_MSG = 'lights_on_mismatch'; ERROR_BLOCK = 'lights_on_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK); ERROR_OTHER = 'lights_on_mismatch';
+              ERROR_OTHER = 'lights_on_mismatch';
             }
           }
           
@@ -349,20 +354,20 @@ void interpret (List commands, bool consider) {
         else if (CURRENT_LEVEL == "3" && color == "off") {
           if (CHECK_AGAINST == "morning") {
             if (CURRENT_BLOCK == "then") {
-              ERR_MSG = '';  ERROR_THEN = '';
+              ERROR_THEN = '';
             }
             else { //current is other
-              ERR_MSG = 'lights_off_mismatch'; ERROR_BLOCK = 'lights_off_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK);  ERROR_OTHER = 'lights_off_mismatch';
+              ERROR_OTHER = 'lights_off_mismatch';
             }
             
           }
           
           else { //check against is evening 
             if (CURRENT_BLOCK == "then") {
-              ERR_MSG = 'lights_off_mismatch'; ERROR_BLOCK = 'lights_off_mismatch'; print("ERROR BLOCK IS " + ERROR_BLOCK);  ERROR_THEN = 'lights_off_mismatch'; 
+              ERROR_THEN = 'lights_off_mismatch'; 
             }
             else { //current is other
-              ERR_MSG = ''; ERROR_OTHER = '';
+              ERROR_OTHER = '';
             }
           }
           
@@ -382,15 +387,15 @@ void interpret (List commands, bool consider) {
 //--------------------------------------------------------------------------
 // Repeat block
 //--------------------------------------------------------------------------
-void processRepeat(List nested) {
+void processRepeat(List nested, bool consider) {
   var count = nested[1];
   var block = nested[2];
   var outfit;
   
-  blocks[block_name['repeat']][1] = true; print("repeat FOUND");
+  blocks[block_name['repeat']][1] = true; //print("repeat FOUND");
   
   for (var i=0; i < count; i++) {
-    interpret(block, true);
+    interpret(block, consider);
   }
 }
 
@@ -398,18 +403,33 @@ void processRepeat(List nested) {
 //--------------------------------------------------------------------------
 // CallFunction block
 //--------------------------------------------------------------------------
-void processCall(List nested) {
+void processCall(List nested, bool consider) {
   var funcName = nested[1];
   var block;
   var outfit;
   
   blocks[block_name['call']][1] = true; print("CALL FOUND");
+  
+  if (CURRENT_LEVEL == "5") {
+    if (CHECK_AGAINST == "Riyadh") {
+      if (CURRENT_BLOCK == "then") {
+        procedure_riyadh = true;
+      }
+      
+    }
+    else if (CHECK_AGAINST == "Jeddah") {
+      if (CURRENT_BLOCK =="other") {
+        procedure_riyadh = true;
+      }
+    }
+    
+  }
   for (int i=0; i < subroutines.length; i++) {
     if (funcName == subroutines[i][0]) {
       block = subroutines[i][1];
       if (block.length >= 1) {blocks[block_name['abstraction']][1] = true;}
       
-      interpret(block,true);
+      interpret(block, consider);
     }
   }
    
@@ -419,7 +439,7 @@ void processCall(List nested) {
 //--------------------------------------------------------------------------
 // IF block
 //--------------------------------------------------------------------------
-void processIf(List nested) {
+void processIf(List nested, bool consider) {
   var condition = nested [1][0];
   var then = nested[2];
   var other = nested[3];
@@ -432,31 +452,12 @@ void processIf(List nested) {
   if (other.length >= 1) {blocks[block_name['other']][1] = true; print("OTHER POPULATED");}
   
   if (condition != 0) {
-    /*if (condition == "Drawing") { //DRAWING FOR block is connected to IF block
+    if (condition == "Drawing") { //DRAWING FOR block is connected to IF block
       blocks[block_name['drawing']][1] = true;
+      CHECK_AGAINST = (nested[1][1] == "Riyadh")? "Riyadh" : "Jeddah";
+      print("CURRENT CITY IS " + CURRENT_CITY);
       
-          
-      consider = false;
-      CURRENT_BLOCK = 'then';
-      interpret(then);
-      CURRENT_BLOCK = 'other';
-      interpret(other);
-      
-      consider = true;
-      result = (nested[1][1] == CURRENT_PERSON)? then : other;
-      //result could be empty!
-      if (result.length != 0)
-        interpret(result);
-        
-    }*/
-      
-     
-    if (condition == "Time")  {  //TIME CONDITION
-      blocks[block_name['time']][1] = true;
-      CHECK_AGAINST = (nested[1][1] == "morning")? "morning" : "evening";
-      
-      if (nested[1][1] == CURRENT_TIME) {
-        satisfied = true;
+      if (nested[1][1] == CURRENT_CITY) {
         CURRENT_BLOCK = 'then';
         interpret(then, true);
         CURRENT_BLOCK = 'other';
@@ -464,58 +465,54 @@ void processIf(List nested) {
       }
       
       else {
-        satisfied = false;
         CURRENT_BLOCK = 'other';
         interpret(other, true);
         CURRENT_BLOCK = 'then';
         interpret(then, false);
         
       }
-      /*consider = false;
-      interpret(then);
-      interpret(other);
+        
+    }
       
-      consider = true;
-      result = (nested[1][1] == CURRENT_TIME)? then : other;
-      interpret(result);*/
+     
+    if (condition == "Time")  {  //TIME CONDITION
+      blocks[block_name['time']][1] = true;
+      CHECK_AGAINST = (nested[1][1] == "morning")? "morning" : "evening";
       
+      if (nested[1][1] == CURRENT_TIME) {
+        CURRENT_BLOCK = 'then';
+        interpret(then, true);
+        CURRENT_BLOCK = 'other';
+        interpret(other, false);
+      }
       
+      else {
+        CURRENT_BLOCK = 'other';
+        interpret(other, true);
+        CURRENT_BLOCK = 'then';
+        interpret(then, false);
+        
+      }
+     
     }
   
   
   }
   
   else { //nothing is connected to if statement
-    
-    consider = false;
     interpret(then, false);
-    
-    consider = true;
     interpret(other, true);
     
   }
 
   }
-
 //--------------------------------------------------------------------------
 // Generate random place and color
 //--------------------------------------------------------------------------
 void randomize() {
   
-  var places;
-  if (CURRENT_LEVEL == "3") {
-    places = ['gym', 'restaurant'];
-  }
-  
-  else {
-    places = ['formal', 'concert'];
-  }
-  
-  
   Random rnd = new Random();
   var x = rnd.nextInt(2);
-  
-  CURRENT_PLACE = places[x];
   
   var colors = ['black', 'purple'];
   
@@ -525,11 +522,11 @@ void randomize() {
   CURRENT_COLOR = colors[x];
   
   
-  var people = ['teacher', 'friend'];
+  var city = ['Riyadh', 'Jeddah'];
   rnd = new Random();
   x = rnd.nextInt(2);
   
-  CURRENT_PERSON = people[x];
+  CURRENT_CITY = city[x];
   
   
   var time = ['morning', 'evening'];

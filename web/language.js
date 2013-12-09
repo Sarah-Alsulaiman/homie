@@ -356,8 +356,8 @@ Blockly.Language.drawing_for = {
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle("Drawing for")
-        .appendTitle(new Blockly.FieldDropdown([["teacher", "teacher"], ["friend", "friend"]]), "drawing_for");
+        .appendTitle("Building in")
+        .appendTitle(new Blockly.FieldDropdown([["Riyadh", "Riyadh"], ["Jeddah", "Jeddah"]]), "drawing_for");
     this.setOutput(true, "time_is");
     this.setTooltip('');
   }

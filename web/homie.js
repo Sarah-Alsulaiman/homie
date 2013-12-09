@@ -6,10 +6,10 @@
     var MIN_LEVEL = 1;
     var CURRENT_LEVEL = getLevel();
     var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you build a home using these blocks<br><br>",
-                        " Can you to build a house with different colors and switch the lights on? <br>",
+                        " Can you to build a house with different colors and switch the lights on? <br><br>",
                         " Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
                         " Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
-                        " Can you build a house so that when the city is your town, your favorite house will be built, otherwise, a different house will be built",
+                        " Can you build a house so that when the city is Riyadh, your favorite house will be built, otherwise, a different house will be built",
                         " Can you build a flashing house? a flashing house will keep turning on and off the lights over and over again!",
                        	" Now, you can play with the blocks as you like!",
                        ];
@@ -228,7 +228,7 @@
 	    	
 	    
 	    }
-		var places = ['morning', 'evening', 'teacher', 'friend'];
+		var places = ['morning', 'evening', 'Riyadh', 'Jeddah'];
 	   			
 		for ( var i=0; i < places.length; i++) {
 		    var bg = document.getElementById(places[i]);
