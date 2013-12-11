@@ -7,7 +7,7 @@ Blockly.Language.roof = {
     this.setColour(330, .45, .65);
     this.appendValueInput("color")
         .setCheck([String, "var"])
-        .appendTitle(" سقف ")
+        .appendTitle("سقف ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -56,7 +56,7 @@ Blockly.Language.windows = {
     this.setColour(330, .45, .65);
     this.appendValueInput("color")
         .setCheck([String, "var"])
-        .appendTitle(" شبابيك ")
+        .appendTitle(" نوافذ ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -66,13 +66,13 @@ Blockly.Language.windows = {
 //-------------------------------------------------------------------------
 // light
 //-------------------------------------------------------------------------
-Blockly.Language.light = {
+Blockly.Language.lights = {
 	helpUrl: 'http://www.example.com/',
 	init: function() {
 	 	this.setColour(330, .45, .65);
 	    this.appendDummyInput()
-        .appendTitle(" المصابيح ")
-        .appendTitle(new Blockly.FieldDropdown([["تشغيل", "on"], ["اطفاء", "off"]]), "lights");
+        .appendTitle(" الإضاءة ")
+        .appendTitle(new Blockly.FieldDropdown([["مفتوحة", "on"], ["مطفأة", "off"]]), "lights");
         this.setPreviousStatement(true);
     	this.setNextStatement(true);
     this.setTooltip('');
@@ -88,7 +88,7 @@ Blockly.Language.red = {
   init: function() {
     this.setColour(14, .95, .86);
     this.appendDummyInput()
-        .appendTitle(" أحمر ");
+        .appendTitle(" Ø£Ø­Ù…Ø± ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -106,7 +106,7 @@ Blockly.Language.blue = {
   init: function() {
     this.setColour(230, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" أزرق ");
+        .appendTitle(" Ø£Ø²Ø±Ù‚ ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -124,7 +124,7 @@ Blockly.Language.purple = {
   init: function() {
     this.setColour(290, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" موف ");
+        .appendTitle(" Ù…ÙˆÙ� ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -142,7 +142,7 @@ Blockly.Language.lime = {
   init: function() {
     this.setColour(76, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" أخضر ");
+        .appendTitle(" Ø£Ø®Ø¶Ø± ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -160,7 +160,7 @@ Blockly.Language.black = {
   init: function() {
     //this.setColour(112, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" أسود ");
+        .appendTitle(" Ø£Ø³ÙˆØ¯ ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -178,7 +178,7 @@ Blockly.Language.gold = {
   init: function() {
     this.setColour(48, .97, .95);
     this.appendDummyInput()
-        .appendTitle(" ذهبي ");
+        .appendTitle(" Ø°Ù‡Ø¨ÙŠ ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -196,7 +196,7 @@ Blockly.Language.pink = {
   init: function() {
     this.setColour(330, .25, .92);
     this.appendDummyInput()
-        .appendTitle(" وردي ");
+        .appendTitle(" ÙˆØ±Ø¯ÙŠ ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -214,7 +214,7 @@ Blockly.Language.orange = {
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle(" برتقالي ");
+        .appendTitle(" Ø¨Ø±ØªÙ‚Ø§Ù„ÙŠ ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -232,7 +232,7 @@ Blockly.Language.grey = {
   init: function() {
     this.setColour(240, .10, .61);
     this.appendDummyInput()
-        .appendTitle(" فضي ");
+        .appendTitle(" Ù�Ø¶ÙŠ ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -249,11 +249,11 @@ Blockly.Language.control_repeat = {
   init: function() {
     this.setColour(76, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" تكرار    ")
+        .appendTitle("تكرار ")
         .appendTitle(new Blockly.FieldTextInput("5"), "COUNT")
-        .appendTitle("    مرات ")
-    this.appendStatementInput(" التالي ");
+        .appendTitle(" مرات ")
     this.appendDummyInput();
+    this.appendStatementInput("DO ");
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -274,7 +274,7 @@ Blockly.Language.control_if = {
         .appendTitle(" اذا كان ");
     this.appendDummyInput()
     this.appendStatementInput("THEN")
-        .appendTitle(" ارسم التالي ");
+        .appendTitle(" قم بالتالي ");
     this.appendDummyInput();
     this.appendStatementInput("ELSE")
         .appendTitle("اذا لم يكن صحيحاً ");
@@ -291,7 +291,7 @@ Blockly.Language.time_is = {
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle(" الوقت الحالي ")
+        .appendTitle(" اذا كان الوقت ")
         .appendTitle(new Blockly.FieldDropdown([[" صباح ", "morning"], [" مساء ", "evening"]]), "time");
     this.setOutput(true, "time_is");
     this.setTooltip('');
@@ -304,8 +304,8 @@ Blockly.Language.drawing_for = {
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle(" الرسم ")
-        .appendTitle(new Blockly.FieldDropdown([[" للمعلمة ", "teacher"], [" لزميلتك  ", "friend"]]), "drawing_for");
+        .appendTitle(" Ø§Ù„Ø±Ø³Ù… ")
+        .appendTitle(new Blockly.FieldDropdown([[" الرياض ", "teacher"], [" جدة  ", "friend"]]), "drawing_for");
     this.setOutput(true, "time_is");
     this.setTooltip('');
   }
@@ -325,9 +325,9 @@ Blockly.Language.procedures_defnoreturn = {
   init: function() {
     this.setColour(290, .45, .65);
     var name = Blockly.Procedures.findLegalName(
-        "اختر اسم مناسب", this);
+        "ضع اسم مناسب هنا", this);
     this.appendDummyInput()
-    	.appendTitle("  اسم الرسمة ")
+    	.appendTitle("  اسم المنزل ")
         .appendTitle(new Blockly.FieldTextInput(name,
         Blockly.Procedures.rename), 'NAME') //------------------------------------------------------------------------------------
         .appendTitle('', 'PARAMS');
@@ -525,7 +525,7 @@ Blockly.Language.procedures_callnoreturn = {
   init: function() {
     this.setColour(290, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" ارسم  ")
+        .appendTitle(" قم ببناء التالي:  ")
         .appendTitle(Blockly.LANG_PROCEDURES_CALLNORETURN_PROCEDURE, 'NAME');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -672,7 +672,7 @@ Blockly.Language.star = {
     this.setColour(330, .45, .65);
     this.appendValueInput("color")
         .setCheck([String, "var"])
-        .appendTitle(" نجمة ")
+        .appendTitle(" Ù†Ø¬Ù…Ø© ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -688,7 +688,7 @@ Blockly.Language.moon = {
     this.setColour(330, .45, .65);
     this.appendValueInput("color")
         .setCheck([String, "var"])
-        .appendTitle(" قمر  ")
+        .appendTitle(" Ù‚Ù…Ø±  ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -704,7 +704,7 @@ Blockly.Language.sun = {
     this.setColour(330, .45, .65);
     this.appendValueInput("color")
         .setCheck([String, "var"])
-        .appendTitle(" شمس ")
+        .appendTitle(" Ø´Ù…Ø³ ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
@@ -720,7 +720,7 @@ Blockly.Language.heart = {
     this.setColour(330, .45, .65);
     this.appendValueInput("color")
         .setCheck([String, "var"])
-        .appendTitle("  قلب ")
+        .appendTitle("  Ù‚Ù„Ø¨ ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');

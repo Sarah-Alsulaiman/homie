@@ -5,13 +5,13 @@
     var MAX_LEVEL = 7;
     var MIN_LEVEL = 1;
     var CURRENT_LEVEL = getLevel();
-    var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you build a home using these blocks<br><br>",
-                        " Can you to build a house with different colors and switch the lights on? <br><br>",
-                        " Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
-                        " Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
-                        " Can you build a house so that when the city is Riyadh, your favorite house will be built, otherwise, a different house will be built",
-                        " Can you build a flashing house? a flashing house will keep turning on and off the lights over and over again!",
-                       	" Now, you can play with the blocks as you like!",
+    var LEVELS_MSG = ["<br>بشكل عام، يتكون المنزل من سقف وجدار ونوافذ وأبواب. هل بإمكانك بناء منزل باستخدام هذه الأجزاء؟<br><br>",
+                        "<br>هل بإمكانك بناء منزل بألوان مختلفة وتشغيل الإضاءة؟ <br><br>",
+                        "<br>هل بإمكانك بناء منزل بحيث تكون الإضاءة مفتوحة في الليل ومطفأة اذا كان الوقت نهاراَ؟ <br><br>",
+                        "<br>الآن، بإمكانك بناء منزل واختيار ألوانك المفضلة وإطلاق اسم عليه بحيث يسهل عليك استخدامه لاحقاَ بدون الحاجة الى إعادة تنسيقه، هل بإمكانك تكوين هذا المنزل وبنائه؟<br><br>",
+                        "<br>هل بإمكانك بناء منزل بحيث اذا كانت المدينة هي الرياض، فإنه سيتم بناء منزلك المفضل، أما اذا كانت المدينة هي جدة، فسوف يتم بناء منزل مختلف<br><br>",
+                        "<br>هل بإمكانك بناء منزل بحيث يتم تشغيل الانوار واطفائها مرة تلو الأخرى 6 مرات<br><br>",
+                       	" <br>الآن بإمكانك اللعب بالمكعبات بكل حرية ...<br><br>",
                        ];
    
     var COLORS = ['red', 'blue'];
@@ -86,7 +86,7 @@
     function advanceLevel () {
 		storeProcedure();
 		if (CURRENT_LEVEL < MAX_LEVEL - 1) {
-		    $.jqDialog.confirm("Wonderful!<BR/> <BR/> Would you like to continue? ".replace('%1', CURRENT_LEVEL + 1),
+		    $.jqDialog.confirm("رائع ..!<BR/> <BR/> هل تود الاستمرار ".replace('%1', CURRENT_LEVEL + 1),
 		    function() { window.location = window.location.protocol + '//' +
 	                     window.location.host + window.location.pathname +
 	                     '?level=' + (CURRENT_LEVEL + 1); },    // callback function for 'YES' button
@@ -96,7 +96,7 @@
 		}
 	      
 		else if (CURRENT_LEVEL == MAX_LEVEL - 1) {
-		    $.jqDialog.alert("<center> Congratulations! <br> You finished all activities <br> <br>Now, you can play with all blocks as you like</center>", 
+		    $.jqDialog.alert("<center> مبروك! <br> لقد أنهيت كافة المراحل <br> <br>الآن بامكانك اللعب بالمكعبات بكل حرية ...</center>", 
 	            function() { window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?level=' + (CURRENT_LEVEL + 1);  }); // callback function for 'OK' button
 		}   
     }
@@ -108,7 +108,7 @@
 //---------------------------------------------------------------------------
     function showError () {
 	
-	$.jqDialog.alert("Are you missing something?<br><br>" + error, function() { }); // callback function for 'OK' button
+	$.jqDialog.alert("هل نسيت شيئاَ؟<br><br>" + error, function() { }); // callback function for 'OK' button
       
     }
  
@@ -389,7 +389,7 @@
       }
       
       else {
-      	alert("still generating previous house");
+      	alert("مازال البناء للمنزل السابق مستمر، الرجاء ضغط موافق والانتظار لحين الانتهاء");
       
       }
     }
@@ -919,11 +919,11 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       //************************************************************************************************************************
       
       var toolbox1 = '<xml> <category></category> ';
-      toolbox1 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>';
+      toolbox1 += '  <category name="+ أجزاء البناء"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>';
       toolbox1 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox1 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+      toolbox1 += '<category name="+ الألوان"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox1 += '</category> <category> </category>'; //close coloring
@@ -933,11 +933,15 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       
       //------------------------------------------------------------------------------
       var toolbox2 = '<xml> <category></category> ';
-      toolbox2 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      
+      toolbox2 += '<category name="+ الإضاءة"> <block type="lights"></block> ';
+      toolbox2 += '</category> <category> </category>'; //close lights
+      
+      toolbox2 += '  <category name="+ أجزاء البناء"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
       toolbox2 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox2 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+      toolbox2 += '<category name="+ الألوان"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox2 += '</category> <category> </category>'; //close coloring
@@ -947,73 +951,94 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       
       //------------------------------------------------------------------------------
       var toolbox3 = '<xml> <category></category> ';
-      toolbox3 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      
+      toolbox3 += '<category name = "+ التحكم"> <block type = "control_if"></block> <block type="time_is"></block>';
+      toolbox3 += '</category> <category> </category>'; //close controls
+      
+      toolbox3 += '<category name="+ الإضاءة"> <block type="lights"></block> ';
+      toolbox3 += '</category> <category> </category>'; //close lights
+      
+      toolbox3 += '  <category name="+ أجزاء البناء"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block> ';
       toolbox3 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox3 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+      toolbox3 += '<category name="+ الألوان"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox3 += '</category> <category> </category>'; //close coloring
-      
-      toolbox3 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block>';
-      toolbox3 += '</category> <category> </category>'; //close controls
       
       
       toolbox3 += '</xml>';
       
       //------------------------------------------------------------------------------
       var toolbox4 = '<xml> <category></category> ';
-      toolbox4 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      
+      toolbox4 += '<category name = "+ اسماء المنازل" custom="PROCEDURE">';
+      toolbox4 += '</category> <category> </category>'; //close definitions
+      
+      toolbox4 += '<category name = "+ التحكم"> <block type = "control_if"></block> <block type="time_is"></block>';
+      toolbox4 += '</category> <category> </category>'; //close controls
+      
+      toolbox4 += '<category name="+ الإضاءة"> <block type="lights"></block> ';
+      toolbox4 += '</category> <category> </category>'; //close lights
+      
+      toolbox4 += '  <category name="+ أجزاء البناء"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>';
       toolbox4 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox4 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+      toolbox4 += '<category name="+ الألوان"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox4 += '</category> <category> </category>'; //close coloring
       
-      toolbox4 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block>';
-      toolbox4 += '</category> <category> </category>'; //close controls
-      
-      toolbox4 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
-      toolbox4 += '</category> <category> </category>'; //close definitions
       toolbox4 += '</xml>';
       
       //------------------------------------------------------------------------------
       var toolbox5 = '<xml> <category></category> ';
-      toolbox5 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      
+      toolbox5 += '<category name = "+ اسماء المنازل" custom="PROCEDURE">';
+      toolbox5 += '</category> <category> </category>'; //close definitions
+      
+      toolbox5 += '<category name = "+ التحكم"> <block type = "control_if"></block>  <block type="drawing_for"></block>  <block type="time_is"></block>';
+      toolbox5 += '</category> <category> </category>'; //close controls
+      
+      toolbox5 += '<category name="+ الإضاءة"> <block type="lights"></block> ';
+      toolbox5 += '</category> <category> </category>'; //close lights
+      
+      toolbox5 += '  <category name="+ أجزاء البناء"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block> ';
       toolbox5 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox5 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+      toolbox5 += '<category name="+ الألوان"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox5 += '</category> <category> </category>'; //close coloring
       
-      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block>';
-      toolbox5 += '</category> <category> </category>'; //close controls
       
-      toolbox5 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
-      toolbox5 += '</category> <category> </category>'; //close definitions
+     
       toolbox5 += '</xml>';
       
       //------------------------------------------------------------------------------
       var toolbox6 = '<xml> <category></category> ';
-      toolbox6 += '  <category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>  <block type="lights"></block> ';
+      
+      toolbox6 += '<category name = "+ اسماء المنازل" custom="PROCEDURE">  ';
+      toolbox6 += '</category> <category> </category>'; //close definitions
+      
+      toolbox6 += '<category name = "+ التحكم"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
+      toolbox6 += '</category> <category> </category>'; //close controls
+      
+      toolbox6 += '<category name="+ الإضاءة"> <block type="lights"></block> ';
+      toolbox6 += '</category> <category> </category>'; //close lights
+      
+      toolbox6 += '  <category name="+ أجزاء البناء"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>';
       toolbox6 += '</category> <category> </category>'; //close building blocks
-      
-      
-      toolbox6 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
+  
+      toolbox6 += '<category name="+ الألوان"> <block type="red"></block> <block type="blue"></block>' + 
                     '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
                     '<block type="lime"></block> <block type="gold"></block>' ;
       toolbox6 += '</category> <category> </category>'; //close coloring
       
-      toolbox6 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="time_is"></block> <block type="drawing_for"></block> <block type="control_repeat"></block>';
-      toolbox6 += '</category> <category> </category>'; //close controls
       
-      toolbox6 += '<category name = "+ Home Definitions" custom="PROCEDURE">  </category>';
-      toolbox6 += '</category> <category> </category>'; //close definitions
       toolbox6 += '</xml>';
       
       //------------------------------------------------------------------------------
@@ -1023,28 +1048,30 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       switch(CURRENT_LEVEL)
       {
         case 1:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox1 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox1, rtl: true } );
+          setHtmlOpacity("hint1", 1.0);
+          fadeOutAfterDelay("hint1", 5000);
           break;
         case 2:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox2 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox2, rtl: true } );
           break;
         case 3:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox3 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox3, rtl: true } );
           break;
         case 4:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox4 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox4, rtl: true } );
           break; 
         case 5:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox5, rtl: true } );
           break;
         case 6:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6, rtl: true } );
           break;
         case 7:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6, rtl: true } );
           break;  
         default:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6, rtl: true } );
       }
       
       if (CURRENT_LEVEL >= 4) {

@@ -21,11 +21,11 @@
 
 		//________button / control labels
 		labels: {
-			ok: 'OK',
-			no: 'No',
-			yes: 'Yes',
+			ok: 'Ù…ÙˆØ§Ù�Ù‚',
+			no: 'Ù„Ø§',
+			yes: 'Ù†Ø¹Ù…',
 			
-			cancel: 'Cancel'
+			cancel: 'Ø§Ù„ØºØ§Ø¡'
 		},
 
 		//________element ids

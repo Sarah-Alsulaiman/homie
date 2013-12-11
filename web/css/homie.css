@@ -90,7 +90,7 @@ button {
    display: inline-block;
 }
 
-#play-button { background: url("images/show.png")  0 no-repeat; background-position: 5px 5px; }
+#play-button { background: url("../images/show.png")  0 no-repeat; background-position: 5px 5px; }
 #play-button:active { background-position: 8px 8px; }
 
 
