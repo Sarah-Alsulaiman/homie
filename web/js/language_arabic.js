@@ -10,7 +10,18 @@ Blockly.Language.roof = {
         .appendTitle("سقف ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('');
+    var thisBlock = this; 
+    this.setTooltip( function() {
+      					var color = Blockly.JavaScript.valueToCode(thisBlock, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
+      					if (color == '0')
+      						return 'roof-red';
+      					else {
+      						color = color.replace(/"/g, "").replace(/\(/g, "").replace(/\)/g, "");
+      						return 'roof-'+ color;
+      					}
+      				
+    				}
+				   );
   },
 };
 
@@ -27,7 +38,18 @@ Blockly.Language.wall = {
         .appendTitle(" جدار ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('');
+    var thisBlock = this; 
+    this.setTooltip( function() {
+      					var color = Blockly.JavaScript.valueToCode(thisBlock, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
+      					if (color == '0')
+      						return 'wall-blue';
+      					else {
+      						color = color.replace(/"/g, "").replace(/\(/g, "").replace(/\)/g, "");
+      						return 'wall-'+ color;
+      					}
+      				
+    				}
+				   );
   }
 };
 
@@ -43,7 +65,18 @@ Blockly.Language.door = {
         .appendTitle(" باب ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('');
+    var thisBlock = this; 
+    this.setTooltip( function() {
+      					var color = Blockly.JavaScript.valueToCode(thisBlock, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
+      					if (color == '0')
+      						return 'door-red';
+      					else {
+      						color = color.replace(/"/g, "").replace(/\(/g, "").replace(/\)/g, "");
+      						return 'door-'+ color;
+      					}
+      				
+    				}
+				   );
   }
 };
 
@@ -59,7 +92,18 @@ Blockly.Language.windows = {
         .appendTitle(" نوافذ ")
     this.setPreviousStatement(true);
     this.setNextStatement(true);
-    this.setTooltip('');
+    var thisBlock = this; 
+    this.setTooltip( function() {
+      					var color = Blockly.JavaScript.valueToCode(thisBlock, 'color', Blockly.JavaScript.ORDER_NONE) || '0';
+      					if (color == '0')
+      						return 'windows-red';
+      					else {
+      						color = color.replace(/"/g, "").replace(/\(/g, "").replace(/\)/g, "");
+      						return 'windows-'+ color;
+      					}
+      				
+    				}
+				   );
   }
 };
 
@@ -75,7 +119,15 @@ Blockly.Language.lights = {
         .appendTitle(new Blockly.FieldDropdown([["مفتوحة", "on"], ["مطفأة", "off"]]), "lights");
         this.setPreviousStatement(true);
     	this.setNextStatement(true);
-    this.setTooltip('');
+    	var thisBlock = this; 
+	    this.setTooltip( function() {
+	      					var state = thisBlock.getTitleValue('lights');
+	      					if (state == 'on')
+	      						return 'lights-on';
+	      					else 
+	      						return 'lights-off';
+	    				}
+					   );
   }
 };
 
@@ -88,7 +140,7 @@ Blockly.Language.red = {
   init: function() {
     this.setColour(14, .95, .86);
     this.appendDummyInput()
-        .appendTitle(" Ø£Ø­Ù…Ø± ");
+        .appendTitle(" أحمر ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -106,7 +158,7 @@ Blockly.Language.blue = {
   init: function() {
     this.setColour(230, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" Ø£Ø²Ø±Ù‚ ");
+        .appendTitle(" أزرق ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -124,7 +176,7 @@ Blockly.Language.purple = {
   init: function() {
     this.setColour(290, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" Ù…ÙˆÙ� ");
+        .appendTitle(" موف ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -142,7 +194,7 @@ Blockly.Language.lime = {
   init: function() {
     this.setColour(76, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" Ø£Ø®Ø¶Ø± ");
+        .appendTitle(" أخضر ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -160,7 +212,7 @@ Blockly.Language.black = {
   init: function() {
     //this.setColour(112, .45, .65);
     this.appendDummyInput()
-        .appendTitle(" Ø£Ø³ÙˆØ¯ ");
+        .appendTitle(" أسود ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -178,7 +230,7 @@ Blockly.Language.gold = {
   init: function() {
     this.setColour(48, .97, .95);
     this.appendDummyInput()
-        .appendTitle(" Ø°Ù‡Ø¨ÙŠ ");
+        .appendTitle(" ذهبي ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -196,7 +248,7 @@ Blockly.Language.pink = {
   init: function() {
     this.setColour(330, .25, .92);
     this.appendDummyInput()
-        .appendTitle(" ÙˆØ±Ø¯ÙŠ ");
+        .appendTitle(" وردي ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -214,7 +266,7 @@ Blockly.Language.orange = {
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle(" Ø¨Ø±ØªÙ‚Ø§Ù„ÙŠ ");
+        .appendTitle(" برتقالي ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -232,7 +284,7 @@ Blockly.Language.grey = {
   init: function() {
     this.setColour(240, .10, .61);
     this.appendDummyInput()
-        .appendTitle(" Ù�Ø¶ÙŠ ");
+        .appendTitle(" فضي ");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -286,13 +338,14 @@ Blockly.Language.control_if = {
 };
 
 
+
 Blockly.Language.time_is = {
   helpUrl: 'http://www.example.com/',
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle(" اذا كان الوقت ")
-        .appendTitle(new Blockly.FieldDropdown([[" صباح ", "morning"], [" مساء ", "evening"]]), "time");
+        .appendTitle("الوقت")
+        .appendTitle(new Blockly.FieldDropdown([["صباح", "morning"], ["مساء", "evening"]]), "time");
     this.setOutput(true, "time_is");
     this.setTooltip('');
   }
@@ -304,8 +357,8 @@ Blockly.Language.drawing_for = {
   init: function() {
     this.setColour(34, .66, .95);
     this.appendDummyInput()
-        .appendTitle(" Ø§Ù„Ø±Ø³Ù… ")
-        .appendTitle(new Blockly.FieldDropdown([[" الرياض ", "teacher"], [" جدة  ", "friend"]]), "drawing_for");
+        .appendTitle("المكان")
+        .appendTitle(new Blockly.FieldDropdown([["الرياض", "Riyadh"], ["جدة", "Jeddah"]]), "drawing_for");
     this.setOutput(true, "time_is");
     this.setTooltip('');
   }

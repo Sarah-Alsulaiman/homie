@@ -159,7 +159,7 @@ void main() {
   text['func'] = "Outfit definitions menu help you create a shortcut";
   text['city'] = "Remember, you need to build your favorite house in Riyadh!";
   
-  
+  text['count'] = "تذكر، يجب عليك تكرار العملية 4 مرات!";
 }
 
 //--------------------------------------------------------------------------
@@ -388,7 +388,9 @@ void processRepeat(List nested, bool consider) {
   var outfit;
   
   blocks[block_name['repeat']][1] = true; //print("repeat FOUND");
-  
+  if (count != 4) {
+    ERR_MSG = 'count';
+  }
   for (var i=0; i < count; i++) {
     interpret(block, consider);
   }

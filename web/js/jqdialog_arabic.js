@@ -21,11 +21,11 @@
 
 		//________button / control labels
 		labels: {
-			ok: 'Ù…ÙˆØ§Ù�Ù‚',
-			no: 'Ù„Ø§',
-			yes: 'Ù†Ø¹Ù…',
+			ok: 'موافق',
+			no: 'لا',
+			yes: 'موافق',
 			
-			cancel: 'Ø§Ù„ØºØ§Ø¡'
+			cancel: 'الغاء الأمر'
 		},
 
 		//________element ids

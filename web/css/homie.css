@@ -31,6 +31,16 @@ body {
    background-color: white; 
 }
 
+
+#rosie-output {
+   position: absolute;
+   left: 1110px;
+   top: 82px;
+   width: 600px;
+   height: 920px;
+   background: url("../images/blank.png");
+}
+
 .level-text {
    background-color: white;
    width: 888px;
@@ -54,16 +64,6 @@ A:active {text-decoration: none}
 A:hover {text-decoration: underline; color: rgba(102, 0, 102, .6);}
 
 
-#rosie-output {
-   position: absolute;
-   left: 1110px;
-   top: 83px;
-   width: 600px;
-   height: 900px;
-   padding: 10px;
-   text-align: center;
-   background-color: rgba(255, 255, 255, 1); 
-}
 
 #rosie-toolbar {
    background-color: rgba(185, 185, 200, 1); 
@@ -71,12 +71,12 @@ A:hover {text-decoration: underline; color: rgba(102, 0, 102, .6);}
    border: 2px solid white;
    border-color:  rgba(102, 0, 102, .6);
    position: absolute;
-   top: 900px;
-   left: 1350px;
+   top: 945px;
+   left: 1380px;
    text-align: center;
    padding: 5px;
    width: 150px;
-   z-index: 2;
+   z-index: 2147483647;
 }
 
 button {
@@ -100,10 +100,8 @@ button {
   -moz-transition: opacity .25s ease-in-out;
   -webkit-transition: opacity .25s ease-in-out;
   opacity: 100;
-  z-index: 2;
+  z-index: 1;
   visibility : hidden;
-  left: 1250px;
-  top: 100px;
   
 }
 
@@ -175,11 +173,11 @@ button {
 }
 
 #hint1 {
-   left: 350px;
-   top: 180px;
+   left: 450px;
+   top: 280px;
 }
 
 #hint2 {
    left: 420px;
-   top: 180px;
+   top: 780px;
 }

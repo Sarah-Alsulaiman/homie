@@ -10,7 +10,7 @@
                         "<br>هل بإمكانك بناء منزل بحيث تكون الإضاءة مفتوحة في الليل ومطفأة اذا كان الوقت نهاراَ؟ <br><br>",
                         "<br>الآن، بإمكانك بناء منزل واختيار ألوانك المفضلة وإطلاق اسم عليه بحيث يسهل عليك استخدامه لاحقاَ بدون الحاجة الى إعادة تنسيقه، هل بإمكانك تكوين هذا المنزل وبنائه؟<br><br>",
                         "<br>هل بإمكانك بناء منزل بحيث اذا كانت المدينة هي الرياض، فإنه سيتم بناء منزلك المفضل، أما اذا كانت المدينة هي جدة، فسوف يتم بناء منزل مختلف<br><br>",
-                        "<br>هل بإمكانك بناء منزل بحيث يتم تشغيل الانوار واطفائها مرة تلو الأخرى 6 مرات<br><br>",
+                        "<br>هل بإمكانك بناء منزل بحيث يتم تشغيل الانوار واطفائها مرة تلو الأخرى 4 مرات<br><br>",
                        	" <br>الآن بإمكانك اللعب بالمكعبات بكل حرية ...<br><br>",
                        ];
    
@@ -32,7 +32,8 @@
     var originalZindex;
     
     var tempImg;
-    var Zindex = 3;
+    var Zindex = 4;
+    var CURRENT_BG = 'blank';
     
     var dafault_procedure = false;
 //-----------------------------------------------------------------------------------------
@@ -86,13 +87,13 @@
     function advanceLevel () {
 		storeProcedure();
 		if (CURRENT_LEVEL < MAX_LEVEL - 1) {
-		    $.jqDialog.confirm("رائع ..!<BR/> <BR/> هل تود الاستمرار ".replace('%1', CURRENT_LEVEL + 1),
-		    function() { window.location = window.location.protocol + '//' +
+		    $.jqDialog.confirm("رائع..! لقد تمت اضافة مكعبات جديدة داخل القوائم<BR/> <BR/> هل تود الاستمرار؟ ".replace('%1', CURRENT_LEVEL + 1),
+	        function() { window.location = window.location.protocol + '//' +
 	                     window.location.host + window.location.pathname +
 	                     '?level=' + (CURRENT_LEVEL + 1); },    // callback function for 'YES' button
 	        
-		    function() {  }    // callback function for 'NO' button
-		    );  
+	        function() {  }    // callback function for 'NO' button
+	        );  
 		}
 	      
 		else if (CURRENT_LEVEL == MAX_LEVEL - 1) {
@@ -190,6 +191,7 @@
 				break;
 				
 			default:
+				item[0] = 'background';
 				break;
 			
 		}
@@ -197,10 +199,17 @@
 		hideVariations(item[0]);
                 
                 
-        if (el) {
-            	el.style.visibility = visible ? "visible" : "hidden";
-            	el.style.zIndex = Zindex++;
-        }
+       if (el) {
+      		if (item[0] != "background") {
+	      		el.style.visibility = visible ? "visible" : "hidden";
+	      		el.style.zIndex = Zindex++;
+      		}
+      		else {
+      			var bg = document.getElementById("rosie-output");
+      			bg.style.background = "url(\'images//" + id + ".png\')";
+      			CURRENT_BG = id;
+      		}
+      	}
                         
                              
    }
@@ -228,13 +237,7 @@
 	    	
 	    
 	    }
-		var places = ['morning', 'evening', 'Riyadh', 'Jeddah'];
-	   			
-		for ( var i=0; i < places.length; i++) {
-		    var bg = document.getElementById(places[i]);
-		    bg.style.visibility = "hidden";
-		}
-   			
+			
     }
    
    
@@ -383,6 +386,10 @@
    			
             tempImg = '';
             playing = true;
+            if (CURRENT_BG != 'blank') {
+              	var bg = document.getElementById("rosie-output");		
+      			bg.style.background = "url(\'images//blank.png\')";
+            }
           }
         }
       
@@ -401,7 +408,7 @@
 //----------------------------------------------------------------------------------------
 	function inject() {     populate();
 	
-		Blockly.Workspace.traceOn = true;
+		//Blockly.Workspace.traceOn = true;
       //***********************************************************************************************
       Blockly.makeColour = function(hue, sat, val) {
 		  return goog.color.hsvToHex(hue, sat,
@@ -913,8 +920,6 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
 
   Blockly.ContextMenu.show(x, y, options);
 };
-    
-      
       
       //************************************************************************************************************************
       

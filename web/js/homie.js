@@ -5,13 +5,13 @@
     var MAX_LEVEL = 7;
     var MIN_LEVEL = 1;
     var CURRENT_LEVEL = getLevel();
-    var LEVELS_MSG = [" In general, a home consist of wall, roof, door, and windows. Can you build a home using these blocks<br><br>",
-                        " Can you to build a house with different colors and switch the lights on? <br><br>",
-                        " Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
-                        " Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
-                        " Can you build a house so that when the city is Riyadh, your favorite house will be built, otherwise, a different house will be built",
-                        " Can you build a flashing house? a flashing house will keep turning on and off the lights over and over again!",
-                       	" Now, you can play with the blocks as you like!",
+    var LEVELS_MSG = ["<br>In general, a home consist of wall, roof, door, and windows. Can you build a home using these blocks<br><br>",
+                        "<br>Can you to build a house with different colors and switch the lights on? <br><br>",
+                        "<br>Can you program a house so that when it is daytime, the lights are switched off and when it is night time, it will be switched on?",
+                        "<br>Now, you can build a house with your favorite colors and give it a name so that you can build it faster anytime later!",
+                        "<br>Can you build a house so that when the city is Riyadh, your favorite house will be built, otherwise, a different house will be built",
+                        "<br>A flashing house will keep turning on and off the lights over and over again.<br> Can you build a flashing house that will keep turning the lights on and off 4 times?",
+                       	"<br>Now, you can play with the blocks as you like!",
                        ];
    
     var COLORS = ['red', 'blue'];
@@ -32,7 +32,8 @@
     var originalZindex;
     
     var tempImg;
-    var Zindex = 3;
+    var Zindex = 4;
+    var CURRENT_BG = 'blank';
     
     var dafault_procedure = false;
 //-----------------------------------------------------------------------------------------
@@ -86,7 +87,7 @@
     function advanceLevel () {
 		storeProcedure();
 		if (CURRENT_LEVEL < MAX_LEVEL - 1) {
-		    $.jqDialog.confirm("Wonderful!<BR/> <BR/> Would you like to continue? ".replace('%1', CURRENT_LEVEL + 1),
+		    $.jqDialog.confirm("Wonderful! Now you have more options to use inside the menues!<BR/> <BR/>Would you like to continue? ".replace('%1', CURRENT_LEVEL + 1),
 		    function() { window.location = window.location.protocol + '//' +
 	                     window.location.host + window.location.pathname +
 	                     '?level=' + (CURRENT_LEVEL + 1); },    // callback function for 'YES' button
@@ -167,7 +168,6 @@
     function setHtmlVisibility(id, visible) {
 		var el = document.getElementById(String(id));
 		var item = id.split("-");
-		
 		switch (item[0]) {
 			case 'roof':
 				originalRoof = id;
@@ -190,17 +190,24 @@
 				break;
 				
 			default:
+				item[0] = 'background';
 				break;
 			
 		}
 		
 		hideVariations(item[0]);
                 
-                
         if (el) {
-            	el.style.visibility = visible ? "visible" : "hidden";
-            	el.style.zIndex = Zindex++;
-        }
+      		if (item[0] != "background") {
+	      		el.style.visibility = visible ? "visible" : "hidden";
+	      		el.style.zIndex = Zindex++;
+      		}
+      		else {
+      			var bg = document.getElementById("rosie-output");
+      			bg.style.background = "url(\'images//" + id + ".png\')";
+      			CURRENT_BG = id;
+      		}
+      	}
                         
                              
    }
@@ -228,13 +235,7 @@
 	    	
 	    
 	    }
-		var places = ['morning', 'evening', 'Riyadh', 'Jeddah'];
-	   			
-		for ( var i=0; i < places.length; i++) {
-		    var bg = document.getElementById(places[i]);
-		    bg.style.visibility = "hidden";
-		}
-   			
+		
     }
    
    
@@ -383,6 +384,10 @@
    			
             tempImg = '';
             playing = true;
+            if (CURRENT_BG != 'blank') {
+              	var bg = document.getElementById("rosie-output");		
+      			bg.style.background = "url(\'images//blank.png\')";
+            }
           }
         }
       
@@ -401,7 +406,7 @@
 //----------------------------------------------------------------------------------------
 	function inject() {     populate();
 	
-		Blockly.Workspace.traceOn = true;
+		//Blockly.Workspace.traceOn = true;
       //***********************************************************************************************
       Blockly.makeColour = function(hue, sat, val) {
 		  return goog.color.hsvToHex(hue, sat,
@@ -1001,7 +1006,7 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox5 += '<category name = "+ Home Definitions" custom="PROCEDURE">';
       toolbox5 += '</category> <category> </category>'; //close definitions
       
-      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="drawing_for"></block> <block type="time_is"></block> ';
+      toolbox5 += '<category name = "+ Controls"> <block type = "control_if"></block> <block type="drawing_for"></block> ';
       toolbox5 += '</category> <category> </category>'; //close controls
       
       toolbox5 += '  <category name="+ Lights"> <block type="lights"></block>';

@@ -159,6 +159,8 @@ void main() {
   text['func'] = "Outfit definitions menu help you create a shortcut";
   text['city'] = "Remember, you need to build your favorite house in Riyadh!";
   
+  text['count'] = "Remember, you need to turn the lights on and off 4 times in a row!";
+  
   
 }
 
@@ -389,6 +391,9 @@ void processRepeat(List nested, bool consider) {
   
   blocks[block_name['repeat']][1] = true; //print("repeat FOUND");
   
+  if (count != 4) {
+    ERR_MSG = 'count';
+  }
   for (var i=0; i < count; i++) {
     interpret(block, consider);
   }
@@ -530,8 +535,8 @@ void randomize() {
   
   CURRENT_TIME = time[x];
   
-  text['lights_on_mismatch'] = "When it's morning, <br> Let's save energy and always turn the lights off!";
-  text['lights_off_mismatch'] = "When it's dark outside, <br> Let's switch the lights on!";
+  text['lights_on_mismatch'] = "When it's morning, Let's save energy and always turn the lights off!";
+  text['lights_off_mismatch'] = "When it's dark outside, Let's switch the lights on!";
   
 }
 

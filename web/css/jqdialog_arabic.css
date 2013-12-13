@@ -40,22 +40,22 @@ pre {
 #jqDialog_content {
 	margin: 30px;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 25px;
 	height: 90px;
 	overflow: visible;
 	color: rgba(102, 0, 102, .6);
-	text-align: left;
+	direction:rtl;
 }
 
 #jqDialog_options {
-	margin: 30px;
-	text-align: right;
+	margin: 40px;
+	text-align: left;
 }
 #jqDialog_options button {
 	font-family: Arial;
-	margin: 10px;
+	margin: 20px;
 	background: pink;
-	font-size: 1.2em;
+	font-size: 1.5em;
 	color: #fff;
 	width: 70px;
 	height: 30px;
