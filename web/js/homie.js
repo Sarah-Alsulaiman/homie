@@ -928,9 +928,9 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox1 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox1 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox1 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
       toolbox1 += '</category> <category> </category>'; //close coloring
       
      
@@ -947,9 +947,9 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox2 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox2 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox2 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
       toolbox2 += '</category> <category> </category>'; //close coloring
       
       
@@ -968,9 +968,9 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox3 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox3 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox3 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
       toolbox3 += '</category> <category> </category>'; //close coloring
       
       
@@ -992,9 +992,9 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox4 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox4 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox4 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
       toolbox4 += '</category> <category> </category>'; //close coloring
      
       toolbox4 += '</xml>';
@@ -1016,9 +1016,9 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox5 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox5 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox5 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
       toolbox5 += '</category> <category> </category>'; //close coloring
       
       
@@ -1040,16 +1040,38 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       toolbox6 += '</category> <category> </category>'; //close building blocks
       
       
-      toolbox6 += '<category name="+ Coloring"> <block type="red"></block> <block type="blue"></block>' + 
-                    '<block type="black"></block> <block type="pink"></block> <block type="grey"></block> <block type="orange"></block> <block type="purple"></block>' +
-                    '<block type="lime"></block> <block type="gold"></block>' ;
+      toolbox6 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
       toolbox6 += '</category> <category> </category>'; //close coloring
       
       toolbox6 += '</xml>';
       
       //------------------------------------------------------------------------------
      
+      var toolbox7 = '<xml> <category></category> ';
       
+      toolbox7 += '<category name = "+ Home Definitions" custom="PROCEDURE">';
+      toolbox7 += '</category> <category> </category>'; //close definitions
+      
+      toolbox7 += '<category name = "+ Controls">  <block type="control_repeat"></block> <block type = "control_if"></block> <block type="drawing_for"></block> <block type="time_is"></block> ';
+      toolbox7 += '</category> <category> </category>'; //close controls
+      
+      toolbox7 += '  <category name="+ Lights"> <block type="lights"></block>';
+      toolbox7 += '</category> <category> </category>'; //close lights
+      
+      toolbox7 += '<category name="+ Building Blocks"> <block type="roof"></block> <block type="wall"></block> <block type="door"></block> <block type="windows"></block>';
+      toolbox7 += '</category> <category> </category>'; //close building blocks
+      
+      
+      toolbox7 += '<category name="+ Coloring"> <block type="red"></block> <block type="brown"></block>' + 
+                    '<block type="black"></block> <block type="pink"></block> <block type="purple"></block> <block type="blue"></block><block type="silver"></block> ' +
+                    '<block type="beige"></block> <block type="gold"></block> ' ;
+      toolbox7 += '</category> <category> </category>'; //close coloring
+      
+      toolbox7 += '</xml>';
+      
+      //----------------------------------------------------------------------------------
       
       switch(CURRENT_LEVEL)
       {
@@ -1074,10 +1096,10 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
           Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
           break;
         case 7:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox7 } );
           break;  
         default:
-          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox6 } );
+          Blockly.inject(document.getElementById('rosie-code'), {path: '../../rosieP2/blockly/', toolbox: toolbox7 } );
       }
       
       if (CURRENT_LEVEL >= 4) {

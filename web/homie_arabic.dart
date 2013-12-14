@@ -26,7 +26,7 @@ String CURRENT_COLOR;
 String CURRENT_WEATHER;
 
 /** Colors available for each outfit **/
-List colors = ['red', 'blue', 'gold', 'lime', 'black', 'pink', 'orange' , 'purple', 'grey'];
+List colors = ['red', 'blue', 'gold', 'brown', 'black', 'pink', 'beige' , 'purple', 'silver'];
 
 List parts;
 
@@ -72,7 +72,7 @@ void main() {
     
     if (msg.startsWith("@dart")) {
       CURRENT_LEVEL = msg.substring(5,6);
-      text['if'] = (CURRENT_LEVEL == "3") ? "You need to account for lights depending on the time" : "You need to account for a house in Riyadh and another in Jeddah";
+      text['if'] = (CURRENT_LEVEL == "3") ? "يجب عليك اختيار حالة الاضاءة بالاعتماد على الوقت" : "يجب عليك بناء منزل للرياض وآخر لجدة";
       
     
       parts = msg.split("#");
@@ -135,31 +135,35 @@ void main() {
   block_name['if'] = 14;
  
   
-  text['repeat'] = "The lights should go on and off repeatedly, <br> choose a block to repeat over and over again<br>";
+  text['repeat'] = "يجب أن تفتح الأنوار وتطفئها بشكل مستمر <br> اختر مكعب لمساعدتك في التكرار<br>";
   
-  text['lights'] = "Remember, you should specify the lights status";
+  text['lights'] = "تذكر! يجب عليك اختيار حالة الاضاءة";
   
-  text['lights_on'] = "Remember, you should turn the lights on!";
+  text['lights_on'] = "تذكر! يجب عليك جعل الاضاءة مفتوحة!";
   
-  text['roof'] = "Make sure you add a roof to your house!";
-  text['wall'] = "Make sure you add a wall to your house!";
-  text['door'] = "Make sure you add a door to your house!";
-  text['windows'] = "Make sure you add windows to your house!";
+  text['roof'] = "تأكد من بناء سقف للمنزل!";
+  text['wall'] = "تأكد من بناء جدار للمنزل!";
+  text['door'] = "تأكد من وضع باب للمنزل!";
+  text['windows'] = "تأكد من اختيار نوافذ للمنزل!";
   
-  text['other'] = "Make sure you choose a house for each case";
-  text['then'] = "Make sure you choose a house for each case";
-  text['time'] = "Remember, it might be a morning or evening";
-  text['drawing'] = "Remember, there are two cases";
-  
- 
+  text['other'] = "تأكد من اختيارك منزلين مختلفين لكل الحالتين";
+  text['then'] = "تأكد من اختيارك منزلين مختلفين لكل الحالتين";
+  text['time'] = "تذكر! قد يكون الوقت صباحاَ وقد يكون مساءَ!";
+  text['drawing'] = "تذكر! قد تكون المدينة هي الرياض وقد تكون جدة!";
   
   
-  text['abstraction'] = "Make sure you fill the definition";
-  text['call'] = "You created a definition but didn't use it!";
-  text['func'] = "Outfit definitions menu help you create a shortcut";
-  text['city'] = "Remember, you need to build your favorite house in Riyadh!";
+  text['abstraction'] = "تأكد من اختيار اجزاء البناء المناسبة لهذا الاسم";
+  text['call'] = "لقد قمت باختيار اسم المنزل ولكنك لم تقم ببنائه، بإمكانك إيجاد الاختصار المخصص له في قائمة اسماء المنازل";
+  text['func'] = "قائمة اسماء الملابس تساعدك في اختيار اللبس بطريقة اسرع لاحقاَ";
   
-  text['count'] = "تذكر، يجب عليك تكرار العملية 4 مرات!";
+  text['lights_on_mismatch'] = "عندما يكون الوقت صباحاً، يجب علينا اطفاء الأنوار لتوفير الطاقة!";
+  text['lights_off_mismatch'] = "عندما يكون الوقت مساءَ، لنقم بفتح الأنوار حتى نستطيع الرؤية!";
+  
+  text['city'] = "تذكر! لقد قمت بتنسيق منزل سابقاً، بامكانك استخدامه عن طريق الاختصار المخصص له من قائمة اسماء المنازل";
+  
+  text['count'] = "تذكر! يجب عليك فتح واطفاء الأنوار 4 مرات متتالية!";
+  
+  
 }
 
 //--------------------------------------------------------------------------
@@ -300,6 +304,7 @@ void interpret (List commands, bool consider) {
         var color = nested[1];
         
         var outfit = part+color;
+        print("outfit = " + outfit);
         
         if (part.startsWith("roof") && consider) { 
           blocks[block_name['roof']][1]= true; 
@@ -321,6 +326,7 @@ void interpret (List commands, bool consider) {
           blocks[block_name['lights']][1]= true; 
           if (color == "on") {
             blocks[block_name['lights_on']][1]= true; 
+            print("ON!!");
           }
         }
         
@@ -388,10 +394,13 @@ void processRepeat(List nested, bool consider) {
   var outfit;
   
   blocks[block_name['repeat']][1] = true; //print("repeat FOUND");
+  
   if (count != 4) {
     ERR_MSG = 'count';
   }
   for (var i=0; i < count; i++) {
+    print(consider.toString() + " ROUND #" + i.toString());
+    print(block);
     interpret(block, consider);
   }
 }
@@ -532,8 +541,6 @@ void randomize() {
   
   CURRENT_TIME = time[x];
   
-  text['lights_on_mismatch'] = "When it's morning, <br> Let's save energy and always turn the lights off!";
-  text['lights_off_mismatch'] = "When it's dark outside, <br> Let's switch the lights on!";
   
 }
 

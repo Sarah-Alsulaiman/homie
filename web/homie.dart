@@ -26,7 +26,7 @@ String CURRENT_COLOR;
 String CURRENT_WEATHER;
 
 /** Colors available for each outfit **/
-List colors = ['red', 'blue', 'gold', 'lime', 'black', 'pink', 'orange' , 'purple', 'grey'];
+List colors = ['red', 'blue', 'gold', 'lime', 'black', 'pink', 'orange' , 'purple', 'silver'];
 
 List parts;
 

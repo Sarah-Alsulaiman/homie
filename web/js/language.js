@@ -168,6 +168,24 @@ Blockly.Language.blue = {
 };
 
 //-------------------------------------------------------------------------
+// Brown
+//-------------------------------------------------------------------------
+
+Blockly.Language.brown = {
+  helpUrl: 'http://www.example.com/',
+  init: function() {
+    this.setColour(34, .92, .33);
+    this.appendDummyInput()
+        .appendTitle("Brown");
+    this.setOutput(true, String);
+    this.setTooltip('');
+  },
+  getName: function() {
+  	"";
+  },
+};
+
+//-------------------------------------------------------------------------
 // Purple
 //-------------------------------------------------------------------------
 
@@ -186,15 +204,15 @@ Blockly.Language.purple = {
 };
 
 //-------------------------------------------------------------------------
-// Lime
+// Beige
 //-------------------------------------------------------------------------
 
-Blockly.Language.lime = {
+Blockly.Language.beige = {
   helpUrl: 'http://www.example.com/',
   init: function() {
-    this.setColour(76, .45, .65);
+    this.setColour(34, .33, .82);
     this.appendDummyInput()
-        .appendTitle("Lime");
+        .appendTitle("Beige");
     this.setOutput(true, String);
     this.setTooltip('');
   },
@@ -258,28 +276,10 @@ Blockly.Language.pink = {
 };
 
 //-------------------------------------------------------------------------
-// Orange
+// Silver
 //-------------------------------------------------------------------------
 
-Blockly.Language.orange = {
-  helpUrl: 'http://www.example.com/',
-  init: function() {
-    this.setColour(34, .66, .95);
-    this.appendDummyInput()
-        .appendTitle("Orange");
-    this.setOutput(true, String);
-    this.setTooltip('');
-  },
-  getName: function() {
-  	"";
-  },
-};
-
-//-------------------------------------------------------------------------
-// Grey
-//-------------------------------------------------------------------------
-
-Blockly.Language.grey = {
+Blockly.Language.silver = {
   helpUrl: 'http://www.example.com/',
   init: function() {
     this.setColour(240, .10, .61);

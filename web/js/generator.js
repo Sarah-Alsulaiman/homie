@@ -86,8 +86,8 @@ Blockly.JavaScript.pink = function() {
 		
 };
 
-Blockly.JavaScript.grey = function() {
-	color = '"grey"';
+Blockly.JavaScript.silver = function() {
+	color = '"silver"';
 	return [color, Blockly.JavaScript.ORDER_NONE];
 		
 };
@@ -98,8 +98,8 @@ Blockly.JavaScript.gold = function() {
 		
 };
 
-Blockly.JavaScript.lime = function() {
-	color = '"lime"';
+Blockly.JavaScript.brown = function() {
+	color = '"brown"';
 	return [color, Blockly.JavaScript.ORDER_NONE];
 		
 };
@@ -110,8 +110,8 @@ Blockly.JavaScript.purple = function() {
 		
 };
 
-Blockly.JavaScript.orange = function() {
-	color = '"orange"';
+Blockly.JavaScript.beige = function() {
+	color = '"beige"';
 	return [color, Blockly.JavaScript.ORDER_NONE];
 		
 };
