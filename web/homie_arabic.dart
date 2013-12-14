@@ -88,15 +88,11 @@ void main() {
       timer = new Timer.periodic(new Duration(milliseconds: 1000), (Timer t) {
         if (outfits.length == 0) {
           timer.cancel();
+          if (CURRENT_LEVEL == "3" || CURRENT_LEVEL == "5" || int.parse(CURRENT_LEVEL) > 6) { 
+            String background = (blocks[block_name['drawing']][1] == true)? CURRENT_CITY : CURRENT_TIME; 
+            sendMessage("bg " + background);
+          }
           if (check_input) {
-            if (CURRENT_LEVEL == "3") {
-              String background = CURRENT_TIME;
-              sendMessage("bg " + background);
-            }
-            else if (CURRENT_LEVEL == "5") {
-              String background = CURRENT_CITY;
-              sendMessage("bg " + background);
-            }
             sendMessage("DONE!");
           }
           
@@ -304,7 +300,6 @@ void interpret (List commands, bool consider) {
         var color = nested[1];
         
         var outfit = part+color;
-        print("outfit = " + outfit);
         
         if (part.startsWith("roof") && consider) { 
           blocks[block_name['roof']][1]= true; 
@@ -326,7 +321,7 @@ void interpret (List commands, bool consider) {
           blocks[block_name['lights']][1]= true; 
           if (color == "on") {
             blocks[block_name['lights_on']][1]= true; 
-            print("ON!!");
+            
           }
         }
         
@@ -399,8 +394,6 @@ void processRepeat(List nested, bool consider) {
     ERR_MSG = 'count';
   }
   for (var i=0; i < count; i++) {
-    print(consider.toString() + " ROUND #" + i.toString());
-    print(block);
     interpret(block, consider);
   }
 }
